@@ -1,2 +1,2 @@
 def argloader():
-    return ["Boris"]
+    return ["Boris", "Пример с ашибкой в слове."]
