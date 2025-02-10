@@ -1,10 +1,4 @@
-import numpy as np
 from PIL import Image
-
-def generate_image():
-    # Generate an image
-    img = np.random.rand(100, 100)
-    return img
 
 def generate_image_gradient(width=900, height=900, start_color=(0, 0, 255), end_color=(0, 0, 0)):
     """
