@@ -1,0 +1,2 @@
+def argloader():
+    return ["Boris"]
