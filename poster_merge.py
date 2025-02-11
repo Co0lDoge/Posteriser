@@ -2,7 +2,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 def merge_content(background, photo, name, text):
     photo_position = (0, 900 - 400)
-    background.paste(photo, photo_position)
+    background = paste_image(background, photo, photo_position)
 
     # Drawing the name and corrected text
     draw = ImageDraw.Draw(background)
@@ -20,5 +20,19 @@ def merge_content(background, photo, name, text):
 
     draw.text(name_position, name, fill=text_color, font=font)
     draw.text(text_position, text, fill=text_color, font=font)
+
+    return background
+
+def paste_image(background: Image, foreground: Image, position: tuple):
+    background = Image.alpha_composite(
+        Image.new("RGBA", background.size),
+        background.convert('RGBA')
+    )
+
+    background.paste(
+        foreground,
+        position,
+        foreground
+    )
 
     return background
