@@ -1,38 +1,44 @@
 from PIL import Image, ImageDraw, ImageFont
 
-def merge_content(background, photo, name, text):
-    photo_position = (0, 900 - 400)
-    background = paste_image(background, photo, photo_position)
+class PosterGenerator:
+    templates = None
 
-    # Drawing the name and corrected text
-    draw = ImageDraw.Draw(background)
+    def merge_content(self, background, photo, name, text):
+        photo_position = (0, 900 - 400)
+        background = self.paste_image(background, photo, photo_position)
 
-    # Font Selection
-    try:
-        font = ImageFont.truetype("arial.ttf", 40)  # Change font and size as needed
-    except IOError:
-        font = ImageFont.load_default()  # Fallback to default font
+        # Drawing the name and corrected text
+        draw = ImageDraw.Draw(background)
 
-    name_position = (50, 50)
-    text_position = (50, 150)
+        # Font Selection
+        try:
+            font = ImageFont.truetype("arial.ttf", 40)  # Change font and size as needed
+        except IOError:
+            font = ImageFont.load_default()  # Fallback to default font
 
-    text_color = (255, 255, 255)
+        name_position = (50, 50)
+        text_position = (50, 150)
+        text_color = (255, 255, 255)
 
-    draw.text(name_position, name, fill=text_color, font=font)
-    draw.text(text_position, text, fill=text_color, font=font)
+        draw.text(name_position, name, fill=text_color, font=font)
+        draw.text(text_position, text, fill=text_color, font=font)
 
-    return background
+        return background
 
-def paste_image(background: Image, foreground: Image, position: tuple):
-    background = Image.alpha_composite(
-        Image.new("RGBA", background.size),
-        background.convert('RGBA')
-    )
+    def paste_image(self, background: Image, foreground: Image, position: tuple):
+        background = Image.alpha_composite(
+            Image.new("RGBA", background.size),
+            background.convert('RGBA')
+        )
 
-    background.paste(
-        foreground,
-        position,
-        foreground
-    )
+        background.paste(
+            foreground,
+            position,
+            foreground
+        )
 
-    return background
+        return background
+    
+class Template:
+    # Class that represents a template for a poster
+    pass

@@ -1,7 +1,8 @@
-# model pipeline
 from transformers import pipeline
 
-corrector = pipeline("text2text-generation", model="ai-forever/sage-fredt5-large")
-
-def fix_spelling(text):
-    return corrector(text)[0]['generated_text']
+class TextTransform:
+    def __init__(self):
+        self.corrector = pipeline("text2text-generation", model="ai-forever/sage-fredt5-large")
+    
+    def fix_spelling(self, text):
+        return self.corrector(text)[0]['generated_text']

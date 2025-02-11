@@ -1,21 +1,25 @@
 from PIL import Image
-from argloader import argloader
-from imagegen import generate_image_gradient
-from photo_transform import remove_background, resize
-from text_transform import fix_spelling
-from poster_merge import merge_content
+from argloader import load_args
+from imagegen import ImageGenerator
+from photo_transform import PhotoTransform
+from text_transform import TextTransform
+from poster_merge import PosterGenerator
+
+imagegen = ImageGenerator()
+photo_transform = PhotoTransform()
+text_transform = TextTransform()
+poster_generator = PosterGenerator()
 
 photo = Image.open('res/Professional-Headshot-Poses-Blog-Post-1.png')
-background = generate_image_gradient()
+background = imagegen.generate_image_gradient()
 
-name = argloader()[0]
-text = argloader()[1]
+name, text = load_args()
 
-corrected_text = str(fix_spelling(text))
+corrected_text = text_transform.fix_spelling(text)
 
-backgroundless_photo = resize(remove_background(photo))
-resized_photo = resize(backgroundless_photo, width=400)
-poster = merge_content(background, resized_photo, name, corrected_text)
+backgroundless_photo = photo_transform.remove_background(photo)
+resized_photo = photo_transform.resize(backgroundless_photo, width=400)
+poster = poster_generator.merge_content(background, resized_photo, name, corrected_text)
 
 # Show final poster
 poster.show()
