@@ -15,7 +15,6 @@ corrected_text = str(fix_spelling(text))
 
 backgroundless_photo = resize(remove_background(photo))
 resized_photo = resize(backgroundless_photo, width=400)
-
 poster = merge_content(background, resized_photo, name, corrected_text)
 
 # Show final poster

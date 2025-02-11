@@ -7,20 +7,17 @@ def merge_content(background, photo, name, text):
     # Drawing the name and corrected text
     draw = ImageDraw.Draw(background)
 
-    # You can use a default font or specify a custom one
+    # Font Selection
     try:
         font = ImageFont.truetype("arial.ttf", 40)  # Change font and size as needed
     except IOError:
         font = ImageFont.load_default()  # Fallback to default font
 
-    # Set up text positions
-    name_position = (50, 50)  # Customize position as needed
-    text_position = (50, 150)  # Customize position as needed
+    name_position = (50, 50)
+    text_position = (50, 150)
 
-    # Choose color for the text
-    text_color = (255, 255, 255)  # White color for text
+    text_color = (255, 255, 255)
 
-    # Add name and corrected text to the image
     draw.text(name_position, name, fill=text_color, font=font)
     draw.text(text_position, text, fill=text_color, font=font)
 
