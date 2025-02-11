@@ -19,3 +19,4 @@ poster = merge_content(background, resized_photo, name, corrected_text)
 
 # Show final poster
 poster.show()
+poster.save("output/poster.png")
