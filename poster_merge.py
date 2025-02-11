@@ -1,4 +1,5 @@
 from PIL import Image, ImageDraw, ImageFont
+import textwrap
 
 class PosterGenerator:
     templates = None
@@ -16,12 +17,22 @@ class PosterGenerator:
         except IOError:
             font = ImageFont.load_default()  # Fallback to default font
 
-        name_position = (50, 50)
+        max_width = 200 # Maximum width in pixels for each line
+        letter_height = font.getbbox('x')[3] - font.getbbox('x')[0]
+        letter_width = font.getbbox('x')[1] - font.getbbox('x')[0]
+        
+        # Wrap the text
+        wrapped_text = textwrap.wrap(text, width=int(max_width // letter_width))  # Adjust width based on font size
+
+        # Define the starting position for the text
         text_position = (50, 150)
         text_color = (255, 255, 255)
 
-        draw.text(name_position, name, fill=text_color, font=font)
-        draw.text(text_position, text, fill=text_color, font=font)
+        # Draw each line of the wrapped text
+        y_position = text_position[1]
+        for line in wrapped_text:
+            draw.text((text_position[0], y_position), line, fill=text_color, font=font)
+            y_position += letter_height  # Move to the next line by increasing the y-position
 
         return background
 
