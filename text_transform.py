@@ -7,5 +7,5 @@ class TextCorrector:
     def get_default_corrector():
         return TextCorrector(corrector=pipeline("text2text-generation", model="ai-forever/sage-fredt5-large"))
     
-    def fix_spelling(self, text):
+    def fix_spelling(self, text) -> str:
         return self.corrector(text)[0]['generated_text']

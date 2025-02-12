@@ -101,22 +101,23 @@ class PosterGenerator:
 
         return resized_image
     
-class Poster:
-    def set_template():
-        pass
-
-    def set_background():
-        pass
-
-    def set_text():
-        pass
-
-    def build():
-        pass
-        
 class Template:
     def __init__(self, photo_bbox, text_bbox, text_font, text_color):
         self.photo_bbox = photo_bbox
         self.text_bbox = text_bbox
         self.text_font = text_font
         self.text_color = text_color
+
+class PosterBuilder:
+    def set_template(self, template: Template):
+        self.template = template
+
+    def set_background(self, background: Image):
+        self.background = background
+
+    def set_text(self, text: str, bbox: tuple):
+        self.text = text
+
+    def build(self) -> Image:
+        pass
+        

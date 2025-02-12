@@ -2,18 +2,6 @@ from PIL import Image
 
 class ImageGenerator:
     def generate_image_gradient(width=900, height=900, start_color=(0, 0, 255), end_color=(0, 0, 0)):
-        """
-        Generate a gradient image transitioning from start_color to end_color.
-
-        Parameters:
-        - width: The width of the image in pixels. Default is 900.
-        - height: The height of the image in pixels. Default is 900.
-        - start_color: The starting color of the gradient in RGB format. Default is blue (0, 0, 255).
-        - end_color: The ending color of the gradient in RGB format. Default is black (0, 0, 0).
-
-        Returns:
-        - A Pillow Image object representing the gradient.
-        """
         # Create a new image with the specified dimensions
         img = Image.new('RGB', (width, height))
 
