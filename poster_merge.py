@@ -6,6 +6,7 @@ class PosterBuilder:
         self.template = None
         self.photo = None
         self.background = None
+        self.name = None
         self.desc = None
 
     def set_template(self, template: Template):
@@ -18,6 +19,10 @@ class PosterBuilder:
 
     def set_desc(self, desc: str):
         self.desc = desc
+        return self
+    
+    def set_name(self, name: str):
+        self.name = name
         return self
     
     def set_photo(self, photo: str):
@@ -41,6 +46,16 @@ class PosterBuilder:
                 color=self.template.desc_color,
                 font_path=self.template.desc_font_path,
                 font_size=self.template.desc_font_size
+            )
+        if self.name != None:
+            builded_poster = self.__paste_text(
+                background=builded_poster,
+                text_bbox=self.template.name_bbox,
+                position=self.template.name_position,
+                text=self.name,
+                color=self.template.name_color,
+                font_path=self.template.name_font_path,
+                font_size=self.template.name_font_size
             )
         return builded_poster
     
