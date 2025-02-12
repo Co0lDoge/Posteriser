@@ -1,4 +1,4 @@
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont, ImageOps
 import textwrap
 
 class PosterGenerator:
@@ -11,29 +11,13 @@ class PosterGenerator:
         # Drawing the name and corrected text
         draw = ImageDraw.Draw(background)
 
-        # Font Selection
-        try:
-            font = ImageFont.truetype("arial.ttf", 40)  # Change font and size as needed
-        except IOError:
-            font = ImageFont.load_default()  # Fallback to default font
+        bbox = (400, 200)  # Width and height of the bounding box
+        text = "This is a sample text that will be wrapped into the bounding box. This is a sample text that will be wrapped into the bounding box."
+        color = (255, 255, 255)  # Black text
+        font_path = "arial.ttf"
+        font_size = 40
 
-        max_width = 200 # Maximum width in pixels for each line
-        letter_height = font.getbbox('x')[3] - font.getbbox('x')[0]
-        letter_width = font.getbbox('x')[1] - font.getbbox('x')[0]
-        
-        # Wrap the text
-        wrapped_text = textwrap.wrap(text, width=int(max_width // letter_width))  # Adjust width based on font size
-
-        # Define the starting position for the text
-        text_position = (50, 150)
-        text_color = (255, 255, 255)
-
-        # Draw each line of the wrapped text
-        y_position = text_position[1]
-        for line in wrapped_text:
-            draw.text((text_position[0], y_position), line, fill=text_color, font=font)
-            y_position += letter_height  # Move to the next line by increasing the y-position
-
+        image = self.wrap_text(bbox, text, color, font_path, font_size)
         return background
 
     def paste_image(self, background: Image, foreground: Image, position: tuple):
@@ -49,6 +33,45 @@ class PosterGenerator:
         )
 
         return background
+    
+    def wrap_text(self, bbox: tuple, text: str, color: tuple, font_path: str, font_size: int):
+        # Create a blank image with a transparent background
+        image = Image.new("RGBA", bbox, (255, 255, 255, 0))
+        draw = ImageDraw.Draw(image)
+
+        # Font Selection
+        try:
+            font = ImageFont.truetype(font_path, font_size)  # Change font and size as needed
+        except IOError:
+            font = ImageFont.load_default()  # Fallback to default font
+
+        lines = []
+        words = text.split()
+        current_line = words[0]
+
+        # Wrap the text
+        for word in words[1:]:
+            # Check if adding the next word exceeds the bounding box width
+            if draw.textlength(current_line + " " + word, font=font) <= bbox[0]:
+                current_line += " " + word
+            else:
+                lines.append(current_line)
+                current_line = word
+        lines.append(current_line)
+
+        # Calculate starting y-position to center the text vertically
+        total_text_height = len(lines) * font_size
+        y_position = (bbox[1] - total_text_height) // 2
+
+        # Draw each line of text
+        for line in lines:
+            # Calculate x-position to center the text horizontally
+            line_width = draw.textlength(line, font=font)
+            x_position = (bbox[0] - line_width) // 2
+            draw.text((x_position, y_position), line, font=font, fill=color)
+            y_position += font_size  # Move to the next line
+
+        return image
     
 class Template:
     # Class that represents a template for a poster
