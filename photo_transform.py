@@ -2,7 +2,7 @@ from rembg import remove
 from PIL import Image
 
 class PhotoTransform:
-    def remove_background(self, img):
+    def remove_background(img):
         # Remove background
         res_img = remove(img)
 

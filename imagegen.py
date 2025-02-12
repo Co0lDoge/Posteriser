@@ -1,7 +1,7 @@
 from PIL import Image
 
 class ImageGenerator:
-    def generate_image_gradient(self, width=900, height=900, start_color=(0, 0, 255), end_color=(0, 0, 0)):
+    def generate_image_gradient(width=900, height=900, start_color=(0, 0, 255), end_color=(0, 0, 0)):
         """
         Generate a gradient image transitioning from start_color to end_color.
 

@@ -8,7 +8,7 @@ class PosterGenerator:
         width = 400
         height = 600
         photo_position = (0, 900 - height)
-        photo = self.resize_image(photo, height=height)
+        photo = self.__resize_image(photo, height=height)
         
         bbox = (400, 200)  # Width and height of the bounding box
         text = "This is a sample text that will be wrapped into the bounding box."
@@ -78,18 +78,7 @@ class PosterGenerator:
 
         return image
     
-    def resize_image(self, image, width=None, height=None):
-        """
-        Resize an image while maintaining its aspect ratio.
-
-        Parameters:
-        - image: A PIL Image object.
-        - width: The desired width in pixels. If None, the width will be calculated to maintain the aspect ratio based on the provided height.
-        - height: The desired height in pixels. If None, the height will be calculated to maintain the aspect ratio based on the provided width.
-
-        Returns:
-        - A new PIL Image object with the specified dimensions.
-        """
+    def __resize_image(self, image, width=None, height=None):
         # Get the original dimensions
         original_width, original_height = image.size
 
