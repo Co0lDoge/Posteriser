@@ -12,18 +12,19 @@ class PosterGenerator:
         
         bbox = (400, 200)  # Width and height of the bounding box
         text = "This is a sample text that will be wrapped into the bounding box."
+        position = (400, 0)
         color = (255, 255, 255)  # Black text
         font_path = "arial.ttf"
         font_size = 40
 
         background = self.paste_image(background, photo, photo_position)
-        background = self.paste_text(background, bbox, text, color, font_path, font_size)
+        background = self.paste_text(background, bbox, position, text, color, font_path, font_size)
         return background
 
-    def paste_text(self, background: Image, bbox: tuple, text: str, color: tuple, font_path: str, font_size: int):
+    def paste_text(self, background: Image, bbox: tuple, position: tuple, text: str, color: tuple, font_path: str, font_size: int):
         wrapped_text_image = self.wrap_text(bbox, text, color, font_path, font_size)
 
-        return self.paste_image(background, wrapped_text_image, bbox)
+        return self.paste_image(background, wrapped_text_image, position)
     
     def paste_image(self, background: Image, foreground: Image, position: tuple):
         background = Image.alpha_composite(
@@ -109,15 +110,23 @@ class Template:
         self.text_color = text_color
 
 class PosterBuilder:
+    def __init__(self):
+        self.template = None
+        self.background = None
+        self.text = None
+
     def set_template(self, template: Template):
         self.template = template
+        return self
 
     def set_background(self, background: Image):
         self.background = background
+        return self
 
     def set_text(self, text: str, bbox: tuple):
         self.text = text
+        return self
 
     def build(self) -> Image:
-        pass
+        return self.background
         
