@@ -12,14 +12,19 @@ class PosterGenerator:
         draw = ImageDraw.Draw(background)
 
         bbox = (400, 200)  # Width and height of the bounding box
-        text = "This is a sample text that will be wrapped into the bounding box. This is a sample text that will be wrapped into the bounding box."
+        text = "This is a sample text that will be wrapped into the bounding box."
         color = (255, 255, 255)  # Black text
         font_path = "arial.ttf"
         font_size = 40
 
-        image = self.wrap_text(bbox, text, color, font_path, font_size)
+        background = self.paste_text(background, bbox, text, color, font_path, font_size)
         return background
 
+    def paste_text(self, background: Image, bbox: tuple, text: str, color: tuple, font_path: str, font_size: int):
+        wrapped_text_image = self.wrap_text(bbox, text, color, font_path, font_size)
+
+        return self.paste_image(background, wrapped_text_image, bbox)
+    
     def paste_image(self, background: Image, foreground: Image, position: tuple):
         background = Image.alpha_composite(
             Image.new("RGBA", background.size),
