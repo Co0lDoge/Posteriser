@@ -5,18 +5,18 @@ class PosterGenerator:
     templates = None
 
     def merge_content(self, background, photo, name, text):
-        photo_position = (0, 900 - 400)
-        background = self.paste_image(background, photo, photo_position)
-
-        # Drawing the name and corrected text
-        draw = ImageDraw.Draw(background)
-
+        width = 400
+        height = 600
+        photo_position = (0, 900 - height)
+        photo = self.resize_image(photo, height=height)
+        
         bbox = (400, 200)  # Width and height of the bounding box
         text = "This is a sample text that will be wrapped into the bounding box."
         color = (255, 255, 255)  # Black text
         font_path = "arial.ttf"
         font_size = 40
 
+        background = self.paste_image(background, photo, photo_position)
         background = self.paste_text(background, bbox, text, color, font_path, font_size)
         return background
 
@@ -78,6 +78,56 @@ class PosterGenerator:
 
         return image
     
+    def resize_image(self, image, width=None, height=None):
+        """
+        Resize an image while maintaining its aspect ratio.
+
+        Parameters:
+        - image: A PIL Image object.
+        - width: The desired width in pixels. If None, the width will be calculated to maintain the aspect ratio based on the provided height.
+        - height: The desired height in pixels. If None, the height will be calculated to maintain the aspect ratio based on the provided width.
+
+        Returns:
+        - A new PIL Image object with the specified dimensions.
+        """
+        # Get the original dimensions
+        original_width, original_height = image.size
+
+        # If both width and height are None, return the original image
+        if width is None and height is None:
+            return image
+
+        # Calculate the new dimensions while maintaining the aspect ratio
+        if width is None:
+            # Calculate the width based on the desired height
+            aspect_ratio = original_width / original_height
+            width = int(height * aspect_ratio)
+        elif height is None:
+            # Calculate the height based on the desired width
+            aspect_ratio = original_height / original_width
+            height = int(width * aspect_ratio)
+
+        # Resize the image with the computed dimensions
+        resized_image = image.resize((width, height), Image.LANCZOS)
+
+        return resized_image
+    
+class Poster:
+    def set_template():
+        pass
+
+    def set_background():
+        pass
+
+    def set_text():
+        pass
+
+    def build():
+        pass
+        
 class Template:
-    # Class that represents a template for a poster
-    pass
+    def __init__(self, photo_bbox, text_bbox, text_font, text_color):
+        self.photo_bbox = photo_bbox
+        self.text_bbox = text_bbox
+        self.text_font = text_font
+        self.text_color = text_color

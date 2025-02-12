@@ -18,8 +18,7 @@ name, text = load_args()
 corrected_text = text_transform.fix_spelling(text)
 
 backgroundless_photo = photo_transform.remove_background(photo)
-resized_photo = photo_transform.resize(backgroundless_photo, width=400)
-poster = poster_generator.merge_content(background, resized_photo, name, corrected_text)
+poster = poster_generator.merge_content(background, backgroundless_photo, name, corrected_text)
 
 # Show final poster
 poster.show()
