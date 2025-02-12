@@ -1,32 +1,55 @@
 from PIL import Image, ImageDraw, ImageFont, ImageOps
-import textwrap
+from poster_template import Template
 
-class PosterGenerator:
-    templates = None
+class PosterBuilder:
+    def __init__(self):
+        self.template = None
+        self.photo = None
+        self.background = None
+        self.desc = None
 
-    def merge_content(self, background, photo, name, text):
-        width = 400
-        height = 600
-        photo_position = (0, 900 - height)
-        photo = self.__resize_image(photo, height=height)
-        
-        bbox = (400, 200)  # Width and height of the bounding box
-        text = "This is a sample text that will be wrapped into the bounding box."
-        position = (400, 0)
-        color = (255, 255, 255)  # Black text
-        font_path = "arial.ttf"
-        font_size = 40
+    def set_template(self, template: Template):
+        self.template = template
+        return self
 
-        background = self.paste_image(background, photo, photo_position)
-        background = self.paste_text(background, bbox, position, text, color, font_path, font_size)
-        return background
+    def set_background(self, background: Image):
+        self.background = background
+        return self
 
-    def paste_text(self, background: Image, bbox: tuple, position: tuple, text: str, color: tuple, font_path: str, font_size: int):
-        wrapped_text_image = self.wrap_text(bbox, text, color, font_path, font_size)
-
-        return self.paste_image(background, wrapped_text_image, position)
+    def set_desc(self, desc: str):
+        self.desc = desc
+        return self
     
-    def paste_image(self, background: Image, foreground: Image, position: tuple):
+    def set_photo(self, photo: str):
+        self.photo = photo
+        return self
+
+    def build(self) -> Image:
+        builded_poster = self.background
+        if self.photo != None:
+            builded_poster = self.__paste_image(
+                background=builded_poster,
+                foreground=self.__resize_image(self.photo, height=self.template.photo_height),
+                position=self.template.photo_position
+            )
+        if self.desc != None:
+            builded_poster = self.__paste_text(
+                background=builded_poster,
+                text_bbox=self.template.desc_bbox,
+                position=self.template.desc_position,
+                text=self.desc,
+                color=self.template.desc_color,
+                font_path=self.template.desc_font_path,
+                font_size=self.template.desc_font_size
+            )
+        return builded_poster
+    
+    def __paste_text(self, background: Image, text_bbox: tuple, position: tuple, text: str, color: tuple, font_path: str, font_size: int):
+        wrapped_text_image = self.__wrap_text(text_bbox, text, color, font_path, font_size)
+
+        return self.__paste_image(background, wrapped_text_image, position)
+    
+    def __paste_image(self, background: Image, foreground: Image, position: tuple):
         background = Image.alpha_composite(
             Image.new("RGBA", background.size),
             background.convert('RGBA')
@@ -40,7 +63,7 @@ class PosterGenerator:
 
         return background
     
-    def wrap_text(self, bbox: tuple, text: str, color: tuple, font_path: str, font_size: int):
+    def __wrap_text(self, bbox: tuple, text: str, color: tuple, font_path: str, font_size: int):
         # Create a blank image with a transparent background
         image = Image.new("RGBA", bbox, (255, 255, 255, 0))
         draw = ImageDraw.Draw(image)
@@ -101,32 +124,4 @@ class PosterGenerator:
         resized_image = image.resize((width, height), Image.LANCZOS)
 
         return resized_image
-    
-class Template:
-    def __init__(self, photo_bbox, text_bbox, text_font, text_color):
-        self.photo_bbox = photo_bbox
-        self.text_bbox = text_bbox
-        self.text_font = text_font
-        self.text_color = text_color
-
-class PosterBuilder:
-    def __init__(self):
-        self.template = None
-        self.background = None
-        self.text = None
-
-    def set_template(self, template: Template):
-        self.template = template
-        return self
-
-    def set_background(self, background: Image):
-        self.background = background
-        return self
-
-    def set_text(self, text: str, bbox: tuple):
-        self.text = text
-        return self
-
-    def build(self) -> Image:
-        return self.background
         
