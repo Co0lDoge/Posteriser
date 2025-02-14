@@ -53,7 +53,7 @@ class PosterBuilder:
         return builded_poster
     
     def __paste_text(self, background: Image, text: str, style: DrawableText):
-        wrapped_text_image = self.__wrap_text(text, style.text_size, style.font_color, style.font_path, style.font_size)
+        wrapped_text_image = self.__wrap_text(text, style)
 
         return self.__paste_image(background, wrapped_text_image, style.text_position)
     
@@ -71,22 +71,38 @@ class PosterBuilder:
 
         return background
     
-    def __wrap_text(self, text: str, bbox: tuple, color: tuple, font_path: str, font_size: int):
-        # TODO: Fix color
+    def __wrap_text(self, text: str, style: DrawableText):
+        """
+        Wraps text within a bounding box and returns an image.
+
+        Args:
+            text (str): The text to wrap.
+            style (DrawableText): An instance of DrawableText containing styling and layout information.
+
+        Returns:
+            Image: An image with the wrapped text.
+        """
+        # Extract properties from the DrawableText object
+        bbox = style.text_size
+        color = style.font_color
+        font_path = style.font_path
+        font_size = style.font_size
+
+        # Create a transparent image
         image = Image.new("RGBA", bbox, (255, 255, 255, 0))
         draw = ImageDraw.Draw(image)
 
         # Font Selection
         try:
-            font = ImageFont.truetype(font_path, font_size)  # Change font and size as needed
+            font = ImageFont.truetype(font_path, font_size)  # Use the specified font
         except IOError:
             font = ImageFont.load_default()  # Fallback to default font
 
+        # Wrap the text
         lines = []
         words = text.split()
         current_line = words[0]
 
-        # Wrap the text
         for word in words[1:]:
             # Check if adding the next word exceeds the bounding box width
             if draw.textlength(current_line + " " + word, font=font) <= bbox[0]:

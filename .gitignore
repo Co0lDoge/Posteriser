@@ -2,7 +2,7 @@
 /output/
 /test/
 /sage/
-/__pycache__/
-/sage/
 /model/
 /template/__pycache__/
+/drawable/__pycache__/
+/__pycache__/
