@@ -26,7 +26,7 @@ poster = (
         .set_template(poster_template)
         .set_background(background)
         .set_photo(backgroundless_photo)
-        .set_desc("Welcome to the Event!")
+        .set_desc(corrected_text)
         .set_name(name)
         .build()
     )
