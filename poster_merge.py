@@ -35,8 +35,8 @@ class PosterBuilder:
         if self.photo != None:
             builded_poster = self.__paste_image(
                 background=builded_poster,
-                foreground=self.__resize_image(self.photo, height=self.template.photo.photo_height),
-                position=self.template.photo.photo_position
+                foreground=self.__resize_image(self.photo, height=self.template.photo.size[1]),
+                style=self.template.photo
             )
         if self.desc != None:
             builded_poster = self.__paste_text(
@@ -55,9 +55,9 @@ class PosterBuilder:
     def __paste_text(self, background: Image, text: str, style: DrawableText):
         wrapped_text_image = self.__wrap_text(text, style)
 
-        return self.__paste_image(background, wrapped_text_image, style.text_position)
+        return self.__paste_image(background, wrapped_text_image, style)
     
-    def __paste_image(self, background: Image, foreground: Image, position: tuple):
+    def __paste_image(self, background: Image, foreground: Image, style: DrawableImage):
         background = Image.alpha_composite(
             Image.new("RGBA", background.size),
             background.convert('RGBA')
@@ -65,7 +65,7 @@ class PosterBuilder:
 
         background.paste(
             foreground,
-            position,
+            style.position,
             foreground
         )
 
@@ -83,7 +83,7 @@ class PosterBuilder:
             Image: An image with the wrapped text.
         """
         # Extract properties from the DrawableText object
-        bbox = style.text_size
+        bbox = style.size
         color = style.font_color
         font_path = style.font_path
         font_size = style.font_size

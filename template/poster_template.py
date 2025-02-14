@@ -17,19 +17,19 @@ class Template:
         return Template(
             background_size=900,
             photo=DrawableImage(
-                photo_height=600,
-                photo_position=(0, 900-600),
+                size=(None, 600),
+                position=(0, 900-600),
             ),
             description=DrawableText(
-                text_size=(400, 200),
-                text_position=(400, 200),
+                size=(400, 200),
+                position=(400, 200),
                 font_path="arial.ttf",
                 font_size=40,
                 font_color=(255, 255, 255),
             ),
             name=DrawableText(
-                text_size=(220, 100),
-                text_position=(330, 570),
+                size=(220, 100),
+                position=(330, 570),
                 font_path="arial.ttf",
                 font_size=40,
                 font_color=(255, 255, 255),
