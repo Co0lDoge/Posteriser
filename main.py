@@ -4,7 +4,7 @@ from imagegen import ImageGenerator
 from photo_transform import PhotoTransform
 from text_transform import TextCorrector
 from poster_merge import PosterBuilder
-from template.poster_template import Template, get_default_template
+from template.poster_template import get_default_template
 
 name, desc, title = load_args()
 poster_template = get_default_template()
