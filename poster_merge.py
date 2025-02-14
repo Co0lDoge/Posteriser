@@ -1,5 +1,5 @@
-from PIL import Image, ImageDraw, ImageFont, ImageOps
-from poster_template import Template
+from PIL import Image, ImageDraw, ImageFont
+from template.poster_template import Template
 
 class PosterBuilder:
     def __init__(self):
