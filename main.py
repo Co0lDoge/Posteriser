@@ -6,7 +6,7 @@ from text_transform import TextCorrector
 from poster_merge import PosterBuilder
 from template.poster_template import Template, get_default_template
 
-name, desc = load_args()
+name, desc, title = load_args()
 poster_template = get_default_template()
 
 background = ImageGenerator.generate_image_gradient(
@@ -28,6 +28,7 @@ poster = (
         .set_photo(backgroundless_photo)
         .set_desc(corrected_text)
         .set_name(name)
+        .set_title(title)
         .build()
     )
 

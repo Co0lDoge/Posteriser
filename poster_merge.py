@@ -9,6 +9,7 @@ class PosterBuilder:
         self.background: Image = None
         self.name: str = None
         self.desc: str = None
+        self.title: str = None
 
     def set_template(self, template: Template):
         self.template = template
@@ -28,6 +29,10 @@ class PosterBuilder:
     
     def set_photo(self, photo: str):
         self.photo = photo
+        return self
+    
+    def set_title(self, title: str):
+        self.title = title
         return self
 
     def build(self) -> Image:
@@ -49,6 +54,12 @@ class PosterBuilder:
                 text=self.name,
                 background=builded_poster,
                 style=self.template.name
+            )
+        if self.title != None:
+            builded_poster = self.__paste_text(
+                text=self.title,
+                background=builded_poster,
+                style=self.template.title
             )
         return builded_poster
     

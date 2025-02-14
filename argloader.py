@@ -1,4 +1,5 @@
 def load_args():
     name = "Борис Борисов"
     desc = "Дбро пожаловать на мераприятье на которое нихто никокда ни придед"
-    return name, desc
+    title = "Конференция по программированию"
+    return name, desc, title
