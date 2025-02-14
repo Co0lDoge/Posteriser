@@ -1,13 +1,14 @@
 from PIL import Image, ImageDraw, ImageFont
 from template.poster_template import Template
+from drawable.drawable_object import DrawableImage, DrawableText
 
 class PosterBuilder:
     def __init__(self):
-        self.template = None
-        self.photo = None
-        self.background = None
-        self.name = None
-        self.desc = None
+        self.template: Template = None
+        self.photo: Image = None
+        self.background: Image = None
+        self.name: str = None
+        self.desc: str = None
 
     def set_template(self, template: Template):
         self.template = template
@@ -34,35 +35,27 @@ class PosterBuilder:
         if self.photo != None:
             builded_poster = self.__paste_image(
                 background=builded_poster,
-                foreground=self.__resize_image(self.photo, height=self.template.photo_height),
-                position=self.template.photo_position
+                foreground=self.__resize_image(self.photo, height=self.template.photo.photo_height),
+                position=self.template.photo.photo_position
             )
         if self.desc != None:
             builded_poster = self.__paste_text(
-                background=builded_poster,
-                text_bbox=self.template.desc_bbox,
-                position=self.template.desc_position,
                 text=self.desc,
-                color=self.template.desc_color,
-                font_path=self.template.desc_font_path,
-                font_size=self.template.desc_font_size
+                background=builded_poster,
+                style=self.template.description
             )
         if self.name != None:
             builded_poster = self.__paste_text(
-                background=builded_poster,
-                text_bbox=self.template.name_bbox,
-                position=self.template.name_position,
                 text=self.name,
-                color=self.template.name_color,
-                font_path=self.template.name_font_path,
-                font_size=self.template.name_font_size
+                background=builded_poster,
+                style=self.template.name
             )
         return builded_poster
     
-    def __paste_text(self, background: Image, text_bbox: tuple, position: tuple, text: str, color: tuple, font_path: str, font_size: int):
-        wrapped_text_image = self.__wrap_text(text_bbox, text, color, font_path, font_size)
+    def __paste_text(self, background: Image, text: str, style: DrawableText):
+        wrapped_text_image = self.__wrap_text(text, style.text_size, style.font_color, style.font_path, style.font_size)
 
-        return self.__paste_image(background, wrapped_text_image, position)
+        return self.__paste_image(background, wrapped_text_image, style.text_position)
     
     def __paste_image(self, background: Image, foreground: Image, position: tuple):
         background = Image.alpha_composite(
@@ -78,8 +71,8 @@ class PosterBuilder:
 
         return background
     
-    def __wrap_text(self, bbox: tuple, text: str, color: tuple, font_path: str, font_size: int):
-        # Create a blank image with a transparent background
+    def __wrap_text(self, text: str, bbox: tuple, color: tuple, font_path: str, font_size: int):
+        # TODO: Fix color
         image = Image.new("RGBA", bbox, (255, 255, 255, 0))
         draw = ImageDraw.Draw(image)
 
