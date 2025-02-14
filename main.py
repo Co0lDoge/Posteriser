@@ -4,10 +4,10 @@ from imagegen import ImageGenerator
 from photo_transform import PhotoTransform
 from text_transform import TextCorrector
 from poster_merge import PosterBuilder
-from template.poster_template import Template
+from template.poster_template import Template, get_default_template
 
 name, desc = load_args()
-poster_template = Template.get_default_template()
+poster_template = get_default_template()
 
 background = ImageGenerator.generate_image_gradient(
     width=poster_template.background_size, 
