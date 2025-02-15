@@ -3,6 +3,4 @@
 /test/
 /sage/
 /model/
-/template/__pycache__/
-/drawable/__pycache__/
-/__pycache__/
+__pycache__
