@@ -26,7 +26,7 @@ poster = (
         .set_template(poster_template)
         .set_background(background)
         .set_photo(backgroundless_photo)
-        .set_desc(corrected_text)
+        .set_description(corrected_text)
         .set_name(name)
         .set_title(title)
         .build()

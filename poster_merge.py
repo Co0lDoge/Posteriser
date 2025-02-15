@@ -1,74 +1,82 @@
 from PIL import Image, ImageDraw, ImageFont
+from PIL.Image import Image as ImageType
 from template.poster_template import Template
 from drawable.drawable_object import DrawableImage, DrawableText
 
+from typing import Optional
+
 class PosterBuilder:
     def __init__(self):
-        self.template: Template = None
-        self.photo: Image = None
-        self.background: Image = None
-        self.name: str = None
-        self.desc: str = None
-        self.title: str = None
+        self.template: Optional[Template] = None
+        self.photo: Optional[ImageType] = None
+        self.background: Optional[ImageType] = None
+        self.name: Optional[str] = None
+        self.description: Optional[str] = None
+        self.title: Optional[str] = None
 
-    def set_template(self, template: Template):
+    def set_template(self, template: Template) -> "PosterBuilder":
         self.template = template
         return self
 
-    def set_background(self, background: Image):
+    def set_background(self, background: ImageType) -> "PosterBuilder":
         self.background = background
         return self
 
-    def set_desc(self, desc: str):
-        self.desc = desc
+    def set_description(self, description: str) -> "PosterBuilder":
+        self.description = description
         return self
     
-    def set_name(self, name: str):
+    def set_name(self, name: str) -> "PosterBuilder":
         self.name = name
         return self
     
-    def set_photo(self, photo: str):
+    def set_photo(self, photo: ImageType) -> "PosterBuilder":
         self.photo = photo
         return self
     
-    def set_title(self, title: str):
+    def set_title(self, title: str) -> "PosterBuilder":
         self.title = title
         return self
 
-    def build(self) -> Image:
-        builded_poster = self.background
-        if self.photo != None:
-            builded_poster = self.__paste_image(
-                background=builded_poster,
-                foreground=self.__resize_image(self.photo, height=self.template.photo.size[1]),
+    def build(self) -> ImageType:
+        if self.background is None:
+            raise ValueError("Background must be set before building the poster.")
+        if self.template is None:
+            raise ValueError("Template must be set before building the poster.")
+
+        poster = self.background
+
+        # Paste photo if provided
+        if self.photo is not None:
+            resized_photo = self.__resize_image(self.photo, height=self.template.photo.size[1])
+            poster = self.__paste_image(
+                background=poster,
+                foreground=resized_photo,
                 style=self.template.photo
             )
-        if self.desc != None:
-            builded_poster = self.__paste_text(
-                text=self.desc,
-                background=builded_poster,
-                style=self.template.description
-            )
-        if self.name != None:
-            builded_poster = self.__paste_text(
-                text=self.name,
-                background=builded_poster,
-                style=self.template.name
-            )
-        if self.title != None:
-            builded_poster = self.__paste_text(
-                text=self.title,
-                background=builded_poster,
-                style=self.template.title
-            )
-        return builded_poster
+
+        # Map each text field to its corresponding style from the template
+        text_fields = [
+            (self.description, self.template.description),
+            (self.name, self.template.name),
+            (self.title, self.template.title)
+        ]
+
+        for text, style in text_fields:
+            if text is not None:
+                poster = self.__paste_text(
+                    text=text,
+                    background=poster,
+                    style=style
+                )
+        return poster
     
-    def __paste_text(self, background: Image, text: str, style: DrawableText):
+    def __paste_text(self, background: ImageType, text: str, style: DrawableText):
         wrapped_text_image = self.__wrap_text(text, style)
 
         return self.__paste_image(background, wrapped_text_image, style)
     
-    def __paste_image(self, background: Image, foreground: Image, style: DrawableImage):
+    def __paste_image(self, background: ImageType, foreground: ImageType, style: DrawableImage):
         background = Image.alpha_composite(
             Image.new("RGBA", background.size),
             background.convert('RGBA')
@@ -137,7 +145,7 @@ class PosterBuilder:
 
         return image
     
-    def __resize_image(self, image, width=None, height=None):
+    def __resize_image(self, image: ImageType, width=None, height=None):
         # Get the original dimensions
         original_width, original_height = image.size
 
