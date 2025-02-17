@@ -9,6 +9,7 @@ DEFAULT_COLOR = (255, 255, 255)
 class Template:
     background_size: int
     photo: DrawableImage
+    logo: DrawableImage
     description: DrawableText
     name: DrawableText
     title: DrawableText
@@ -21,9 +22,13 @@ def get_default_template() -> Template:
             size=(None, 600),
             position=(-50, background_size - 600),
         ),
+        logo=DrawableImage(
+            size=(110, 110),
+            position=(50, 50),
+        ),
         description=DrawableText(
             size=(400, 200),
-            position=(300, 200),
+            position=(250, 200),
             font_path=DEFAULT_FONT,
             font_size=DEFAULT_FONT_SIZE,
             font_color=DEFAULT_COLOR,

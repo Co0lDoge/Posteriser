@@ -9,6 +9,7 @@ class PosterBuilder:
     def __init__(self):
         self.template: Optional[Template] = None
         self.photo: Optional[ImageType] = None
+        self.logo: Optional[ImageType] = None
         self.background: Optional[ImageType] = None
         self.name: Optional[str] = None
         self.description: Optional[str] = None
@@ -34,6 +35,10 @@ class PosterBuilder:
         self.photo = photo
         return self
     
+    def set_logo(self, logo: ImageType) -> "PosterBuilder":
+        self.logo = logo
+        return self
+    
     def set_title(self, title: str) -> "PosterBuilder":
         self.title = title
         return self
@@ -44,16 +49,13 @@ class PosterBuilder:
         if self.template is None:
             raise ValueError("Template must be set before building the poster.")
 
-        poster = self.background
+        poster = self.background.copy()
 
-        # Paste photo if provided
-        if self.photo is not None:
-            resized_photo = self.__resize_image(self.photo, height=self.template.photo.size[1])
-            poster = self.__paste_image(
-                background=poster,
-                foreground=resized_photo,
-                style=self.template.photo
-            )
+        # Map each image field to its corresponding style from the template
+        image_fields = [
+            (self.photo, self.template.photo),
+            (self.logo, self.template.logo)
+        ]
 
         # Map each text field to its corresponding style from the template
         text_fields = [
@@ -61,6 +63,15 @@ class PosterBuilder:
             (self.name, self.template.name),
             (self.title, self.template.title)
         ]
+
+        for image, style in image_fields:
+            if image is not None:
+                resized_image = self.__resize_image(image, size=style.size)
+                poster = self.__paste_image(
+                    background=poster,
+                    foreground=resized_image,
+                    style=style
+            )
 
         for text, style in text_fields:
             if text is not None:
@@ -149,9 +160,11 @@ class PosterBuilder:
 
         return image
     
-    def __resize_image(self, image: ImageType, width=None, height=None):
+    def __resize_image(self, image: ImageType, size: tuple[int, int]):
         # Get the original dimensions
         original_width, original_height = image.size
+
+        width, height = size
 
         # If both width and height are None, return the original image
         if width is None and height is None:

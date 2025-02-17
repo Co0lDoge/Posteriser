@@ -16,6 +16,8 @@ background = ImageGenerator.generate_image_gradient(
 
 photo = Image.open('res/Professional-Headshot-Poses-Blog-Post-1.png')
 backgroundless_photo = PhotoTransform.remove_background(photo)
+logo = Image.open('res/logo_alt.png').convert("RGBA")
+backgroundless_logo = PhotoTransform.remove_background(logo)
 
 text_corrector = TextCorrector.get_default_corrector()
 corrected_text = text_corrector.fix_spelling(desc)
@@ -26,6 +28,7 @@ poster = (
         .set_template(poster_template)
         .set_background(background)
         .set_photo(backgroundless_photo)
+        .set_logo(backgroundless_logo)
         .set_description(corrected_text)
         .set_name(name)
         .set_title(title)
