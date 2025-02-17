@@ -19,11 +19,11 @@ def get_default_template() -> Template:
         background_size=900,
         photo=DrawableImage(
             size=(None, 600),
-            position=(0, background_size - 600),
+            position=(-50, background_size - 600),
         ),
         description=DrawableText(
             size=(400, 200),
-            position=(400, 200),
+            position=(300, 200),
             font_path=DEFAULT_FONT,
             font_size=DEFAULT_FONT_SIZE,
             font_color=DEFAULT_COLOR,
