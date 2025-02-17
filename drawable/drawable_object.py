@@ -7,14 +7,14 @@ class TextAlignment(Enum):
 
 @dataclass
 class DrawableImage():
-    size: tuple
-    position: tuple
+    size: tuple[int, int]
+    position: tuple[int, int]
 
 @dataclass
 class DrawableText:
-    size: tuple
-    position: tuple
+    size: tuple[int, int]
+    position: tuple[int, int]
     font_path: str
-    font_size: tuple
-    font_color: tuple
+    font_size: int
+    font_color: tuple[int, int, int]
     text_alignment: TextAlignment
