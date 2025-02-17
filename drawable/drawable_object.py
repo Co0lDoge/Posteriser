@@ -1,4 +1,9 @@
 from dataclasses import dataclass
+from enum import Enum
+
+class TextAlignment(Enum):
+    LEFT = "left"
+    CENTER = "center"
 
 @dataclass
 class DrawableImage():
@@ -12,3 +17,4 @@ class DrawableText:
     font_path: str
     font_size: tuple
     font_color: tuple
+    text_alignment: TextAlignment

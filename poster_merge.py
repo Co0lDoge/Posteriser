@@ -1,7 +1,7 @@
 from PIL import Image, ImageDraw, ImageFont
 from PIL.Image import Image as ImageType
 from template.poster_template import Template
-from drawable.drawable_object import DrawableImage, DrawableText
+from drawable.drawable_object import DrawableImage, DrawableText, TextAlignment
 
 from typing import Optional
 
@@ -135,11 +135,15 @@ class PosterBuilder:
         total_text_height = len(lines) * font_size
         y_position = (bbox[1] - total_text_height) // 2
 
-        # Draw each line of text
         for line in lines:
-            # Calculate x-position to center the text horizontally
             line_width = draw.textlength(line, font=font)
-            x_position = (bbox[0] - line_width) // 2
+
+            match style.text_alignment:
+                case TextAlignment.CENTER:
+                    x_position = (bbox[0] - line_width) // 2
+                case TextAlignment.LEFT:
+                    x_position = 0
+
             draw.text((x_position, y_position), line, font=font, fill=color)
             y_position += font_size  # Move to the next line
 

@@ -1,4 +1,4 @@
-from drawable.drawable_object import DrawableImage, DrawableText
+from drawable.drawable_object import DrawableImage, DrawableText, TextAlignment
 from dataclasses import dataclass
 
 DEFAULT_FONT = "arial.ttf"
@@ -27,6 +27,7 @@ def get_default_template() -> Template:
             font_path=DEFAULT_FONT,
             font_size=DEFAULT_FONT_SIZE,
             font_color=DEFAULT_COLOR,
+            text_alignment=TextAlignment.CENTER
         ),
         name=DrawableText(
             size=(220, 100),
@@ -34,12 +35,14 @@ def get_default_template() -> Template:
             font_path=DEFAULT_FONT,
             font_size=40,
             font_color=DEFAULT_COLOR,
+            text_alignment=TextAlignment.LEFT
         ),
         title=DrawableText(
             size=(500, 200),
             position=(int(background_size/2-500/2), 100),
             font_path=DEFAULT_FONT,
             font_size=50,
-            font_color=DEFAULT_COLOR
+            font_color=DEFAULT_COLOR,
+            text_alignment=TextAlignment.CENTER
         )
 )
