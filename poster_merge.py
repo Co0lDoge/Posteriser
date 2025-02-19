@@ -31,6 +31,10 @@ class PosterBuilder:
         self.name = name
         return self
     
+    def set_name_info(self, name_info: str) -> "PosterBuilder":
+        self.name_info = name_info
+        return self
+    
     def set_photo(self, photo: ImageType) -> "PosterBuilder":
         self.photo = photo
         return self
@@ -61,6 +65,7 @@ class PosterBuilder:
         text_fields = [
             (self.description, self.template.description),
             (self.name, self.template.name),
+            (self.name_info, self.template.name_info),
             (self.title, self.template.title)
         ]
 

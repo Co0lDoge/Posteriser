@@ -13,6 +13,7 @@ class Template:
     logo: DrawableImage
     description: DrawableText
     name: DrawableText
+    name_info: DrawableText
     title: DrawableText
 
 def get_default_template() -> Template: 
@@ -40,6 +41,14 @@ def get_default_template() -> Template:
             position=(330, 570),
             font_path=DEFAULT_FONT,
             font_size=40,
+            font_color=DEFAULT_COLOR,
+            text_alignment=TextAlignment.LEFT
+        ),
+        name_info=DrawableText(
+            size=(150, 100),
+            position=(335, 630),
+            font_path=DEFAULT_FONT,
+            font_size=20,
             font_color=DEFAULT_COLOR,
             text_alignment=TextAlignment.LEFT
         ),

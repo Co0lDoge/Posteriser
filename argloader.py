@@ -1,5 +1,6 @@
 def load_args():
     name = "Борис Борисов"
+    name_info = "Генеральный директор"
     desc = "Дбро пожаловать на мераприятье на которое нихто никокда ни придед"
     title = "Конференция по программированию"
-    return name, desc, title
+    return name, name_info, desc, title
