@@ -10,7 +10,7 @@ class PosterBuilder:
         self.template: Optional[Template] = None
         self.photo: Optional[ImageType] = None
         self.logo: Optional[ImageType] = None
-        self.logo_info: Optional[ImageType] = None
+        self.logo_info: Optional[str] = None
         self.background: Optional[ImageType] = None
         self.name: Optional[str] = None
         self.event_description: Optional[str] = None
