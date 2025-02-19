@@ -1,7 +1,7 @@
 from PIL import Image, ImageDraw, ImageFont
 from PIL.Image import Image as ImageType
 from template.poster_template import Template
-from drawable.drawable_object import DrawableImage, DrawableText, TextAlignment
+from drawable.drawable_object import DrawableImage, DrawableText, TextAlignment, TextLine
 
 from typing import Optional
 
@@ -150,15 +150,34 @@ class PosterBuilder:
         # Calculate starting y-position to center the text vertically
         total_text_height = len(lines) * font_size
         y_position = (bbox[1] - total_text_height) // 2
+        
+        # Draw lines if specified in style
+        if style.text_line:
+            if style.text_line == TextLine.LEFT:
+                line_x_position = 5  # Offset from the left margin
+                line_y_start = y_position
+                line_y_end = y_position + total_text_height
+                draw.line([(line_x_position, line_y_start), (line_x_position, line_y_end)], fill="white", width=2)
+            elif style.text_line == TextLine.VERTICAL:
+                line_x_start = 0
+                line_x_end = bbox[0]
+                draw.line([(line_x_start, y_position - 10), (line_x_end, y_position - 10)], fill="white", width=2)  # Top line
+                draw.line([(line_x_start, y_position + total_text_height + 20), (line_x_end, y_position + total_text_height + 20)], fill="white", width=2)  # Bottom line
 
+        # Draw text
         for line in lines:
             line_width = draw.textlength(line, font=font)
+            match style.text_alignment:
+                case TextAlignment.CENTER:
+                    x_position = (bbox[0] - line_width) // 2
+                case TextAlignment.LEFT:
+                    x_position = 10  # Indent slightly to avoid overlap with the line
 
             match style.text_alignment:
                 case TextAlignment.CENTER:
                     x_position = (bbox[0] - line_width) // 2
                 case TextAlignment.LEFT:
-                    x_position = 0
+                    x_position = 20
 
             draw.text((x_position, y_position), line, font=font, fill=color)
             y_position += font_size  # Move to the next line

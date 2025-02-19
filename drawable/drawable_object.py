@@ -5,6 +5,10 @@ class TextAlignment(Enum):
     LEFT = "left"
     CENTER = "center"
 
+class TextLine(Enum):
+    LEFT = "left"
+    VERTICAL = "vertical"
+
 @dataclass
 class DrawableImage():
     size: tuple[int, int]
@@ -18,3 +22,4 @@ class DrawableText:
     font_size: int
     font_color: tuple[int, int, int]
     text_alignment: TextAlignment
+    text_line: TextLine = None
