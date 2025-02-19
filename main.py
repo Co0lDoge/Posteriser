@@ -6,7 +6,16 @@ from text_transform import TextCorrector
 from poster_merge import PosterBuilder
 from template.poster_template import get_default_template
 
-name, name_info, logo_info, event_desc, event_title, event_time, event_place = load_args()
+(
+    name,
+    name_info,
+    logo_info,
+    event_desc,
+    event_title,
+    event_time,
+    event_place
+) = load_args()
+
 poster_template = get_default_template()
 
 background = ImageGenerator.generate_image_gradient(

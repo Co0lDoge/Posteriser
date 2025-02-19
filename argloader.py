@@ -6,4 +6,12 @@ def load_args():
     event_title = "Конференция по программированию"
     event_time = "25.02.25 в 21.00"
     event_place = "г.Уфа, ул. Ибрагимова 30"
-    return name, name_info, logo_info, event_desc, event_title, event_time, event_place
+    return (
+        name,
+        name_info,
+        logo_info,
+        event_desc,
+        event_title,
+        event_time,
+        event_place
+    )
