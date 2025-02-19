@@ -11,6 +11,7 @@ class Template:
     background_size: int
     photo: DrawableImage
     logo: DrawableImage
+    logo_info: DrawableText
     description: DrawableText
     name: DrawableText
     name_info: DrawableText
@@ -25,8 +26,16 @@ def get_default_template() -> Template:
             position=(-50, background_size - 600),
         ),
         logo=DrawableImage(
-            size=(110, 90),
-            position=(40, 40),
+            size=(110, 110),
+            position=(30, 30),
+        ),
+        logo_info=DrawableText(
+            size=(600, 100),
+            position=(110, 20),
+            font_path=DEFAULT_FONT,
+            font_size=40,
+            font_color=DEFAULT_COLOR,
+            text_alignment=TextAlignment.LEFT
         ),
         description=DrawableText(
             size=(400, 200),

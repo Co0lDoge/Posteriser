@@ -10,6 +10,7 @@ class PosterBuilder:
         self.template: Optional[Template] = None
         self.photo: Optional[ImageType] = None
         self.logo: Optional[ImageType] = None
+        self.logo_info: Optional[ImageType] = None
         self.background: Optional[ImageType] = None
         self.name: Optional[str] = None
         self.description: Optional[str] = None
@@ -43,6 +44,10 @@ class PosterBuilder:
         self.logo = logo
         return self
     
+    def set_logo_info(self, logo_info: str) -> "PosterBuilder":
+        self.logo_info = logo_info
+        return self
+    
     def set_title(self, title: str) -> "PosterBuilder":
         self.title = title
         return self
@@ -66,6 +71,7 @@ class PosterBuilder:
             (self.description, self.template.description),
             (self.name, self.template.name),
             (self.name_info, self.template.name_info),
+            (self.logo_info, self.template.logo_info),
             (self.title, self.template.title)
         ]
 
