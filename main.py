@@ -6,7 +6,7 @@ from text_transform import TextCorrector
 from poster_merge import PosterBuilder
 from template.poster_template import get_default_template
 
-name, name_info, logo_info, desc, title = load_args()
+name, name_info, logo_info, event_desc, event_title, event_time, event_place = load_args()
 poster_template = get_default_template()
 
 background = ImageGenerator.generate_image_gradient(
@@ -20,7 +20,7 @@ logo = Image.open('res/logo_alt.png').convert("RGBA")
 backgroundless_logo = PhotoTransform.remove_background(logo)
 
 text_corrector = TextCorrector.get_default_corrector()
-corrected_text = text_corrector.fix_spelling(desc)
+corrected_text = text_corrector.fix_spelling(event_desc)
 
 poster_builder = PosterBuilder()
 poster = (
@@ -30,10 +30,12 @@ poster = (
         .set_photo(backgroundless_photo)
         .set_logo(backgroundless_logo)
         .set_logo_info(logo_info)
-        .set_description(corrected_text)
+        .set_event_description(corrected_text)
         .set_name(name)
         .set_name_info(name_info)
-        .set_title(title)
+        .set_event_title(event_title)
+        .set_event_time(event_time)
+        .set_event_place(event_place)
         .build()
     )
 

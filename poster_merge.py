@@ -13,8 +13,10 @@ class PosterBuilder:
         self.logo_info: Optional[ImageType] = None
         self.background: Optional[ImageType] = None
         self.name: Optional[str] = None
-        self.description: Optional[str] = None
-        self.title: Optional[str] = None
+        self.event_description: Optional[str] = None
+        self.event_title: Optional[str] = None
+        self.event_time: Optional[str] = None
+        self.event_place: Optional[str] = None
 
     def set_template(self, template: Template) -> "PosterBuilder":
         self.template = template
@@ -22,10 +24,6 @@ class PosterBuilder:
 
     def set_background(self, background: ImageType) -> "PosterBuilder":
         self.background = background
-        return self
-
-    def set_description(self, description: str) -> "PosterBuilder":
-        self.description = description
         return self
     
     def set_name(self, name: str) -> "PosterBuilder":
@@ -48,8 +46,20 @@ class PosterBuilder:
         self.logo_info = logo_info
         return self
     
-    def set_title(self, title: str) -> "PosterBuilder":
-        self.title = title
+    def set_event_title(self, title: str) -> "PosterBuilder":
+        self.event_title = title
+        return self
+    
+    def set_event_description(self, description: str) -> "PosterBuilder":
+        self.event_description = description
+        return self
+    
+    def set_event_time(self, time: str) -> "PosterBuilder":
+        self.event_time = time
+        return self
+    
+    def set_event_place(self, place: str) -> "PosterBuilder":
+        self.event_place = place
         return self
 
     def build(self) -> ImageType:
@@ -68,11 +78,13 @@ class PosterBuilder:
 
         # Map each text field to its corresponding style from the template
         text_fields = [
-            (self.description, self.template.description),
             (self.name, self.template.name),
             (self.name_info, self.template.name_info),
             (self.logo_info, self.template.logo_info),
-            (self.title, self.template.title)
+            (self.event_description, self.template.event_description),
+            (self.event_title, self.template.event_title),
+            (self.event_time, self.template.event_time),
+            (self.event_place, self.template.event_place),
         ]
 
         for image, style in image_fields:

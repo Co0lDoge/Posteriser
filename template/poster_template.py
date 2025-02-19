@@ -12,10 +12,12 @@ class Template:
     photo: DrawableImage
     logo: DrawableImage
     logo_info: DrawableText
-    description: DrawableText
     name: DrawableText
     name_info: DrawableText
-    title: DrawableText
+    event_description: DrawableText
+    event_title: DrawableText
+    event_time: DrawableText
+    event_place: DrawableText
 
 def get_default_template() -> Template: 
     background_size = 900
@@ -37,14 +39,6 @@ def get_default_template() -> Template:
             font_color=DEFAULT_COLOR,
             text_alignment=TextAlignment.LEFT
         ),
-        description=DrawableText(
-            size=(400, 200),
-            position=(270, 250),
-            font_path=DEFAULT_FONT,
-            font_size=DEFAULT_FONT_SIZE,
-            font_color=DEFAULT_COLOR,
-            text_alignment=TextAlignment.CENTER
-        ),
         name=DrawableText(
             size=(220, 100),
             position=(330, 540),
@@ -62,7 +56,7 @@ def get_default_template() -> Template:
             font_color=DEFAULT_COLOR,
             text_alignment=TextAlignment.LEFT
         ),
-        title=DrawableText(
+        event_title=DrawableText(
             size=(800, 200),
             position=(int(background_size/2-800/2), 100),
             font_path=DEFAULT_FONT_BOLD,
@@ -70,5 +64,29 @@ def get_default_template() -> Template:
             font_color=DEFAULT_COLOR,
             text_alignment=TextAlignment.CENTER,
             text_line=TextLine.VERTICAL
+        ),
+        event_description=DrawableText(
+            size=(400, 200),
+            position=(270, 300),
+            font_path=DEFAULT_FONT,
+            font_size=DEFAULT_FONT_SIZE,
+            font_color=DEFAULT_COLOR,
+            text_alignment=TextAlignment.CENTER
+        ),
+        event_time=DrawableText(
+            size=(300, 200),
+            position=(630, -60),
+            font_path=DEFAULT_FONT_BOLD,
+            font_size=30,
+            font_color=DEFAULT_COLOR,
+            text_alignment=TextAlignment.LEFT
+        ),
+        event_place=DrawableText(
+            size=(200, 200),
+            position=(630, -20),
+            font_path=DEFAULT_FONT,
+            font_size=DEFAULT_FONT_SIZE,
+            font_color=DEFAULT_COLOR,
+            text_alignment=TextAlignment.LEFT
         )
 )
