@@ -5,6 +5,8 @@ from drawable.drawable_object import DrawableImage, DrawableText, TextAlignment,
 
 from typing import Optional
 
+POSTER_DEBUG = False
+
 class PosterBuilder:
     def __init__(self):
         self.template: Optional[Template] = None
@@ -122,6 +124,14 @@ class PosterBuilder:
             foreground
         )
 
+        if POSTER_DEBUG:
+            debug_bbox = Image.new("RGBA", foreground.size, (255, 0, 0, 128))
+            background.paste(
+            debug_bbox,
+            style.position,
+            debug_bbox
+        )
+
         return background
     
     def __wrap_text(self, text: str, style: DrawableText):
@@ -165,9 +175,9 @@ class PosterBuilder:
                 current_line = word
         lines.append(current_line)
 
-        # Calculate starting y-position to center the text vertically
+        # Set vertical alignment to the top 
         total_text_height = len(lines) * font_size
-        y_position = (bbox[1] - total_text_height) // 2
+        y_position = 20
         
         # Draw lines if specified in style
         if style.text_line:

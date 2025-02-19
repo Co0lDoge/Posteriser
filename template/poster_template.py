@@ -32,8 +32,8 @@ def get_default_template() -> Template:
             position=(30, 30),
         ),
         logo_info=DrawableText(
-            size=(600, 100),
-            position=(110, 20),
+            size=(500, 100),
+            position=(110, 30),
             font_path=DEFAULT_FONT,
             font_size=40,
             font_color=DEFAULT_COLOR,
@@ -50,7 +50,7 @@ def get_default_template() -> Template:
         ),
         name_info=DrawableText(
             size=(150, 100),
-            position=(335, 600),
+            position=(335, 620),
             font_path=DEFAULT_FONT,
             font_size=20,
             font_color=DEFAULT_COLOR,
@@ -58,7 +58,7 @@ def get_default_template() -> Template:
         ),
         event_title=DrawableText(
             size=(800, 200),
-            position=(int(background_size/2-800/2), 100),
+            position=(int(background_size/2-800/2), 110),
             font_path=DEFAULT_FONT_BOLD,
             font_size=70,
             font_color=DEFAULT_COLOR,
@@ -67,23 +67,23 @@ def get_default_template() -> Template:
         ),
         event_description=DrawableText(
             size=(400, 200),
-            position=(270, 300),
+            position=(270, 310),
             font_path=DEFAULT_FONT,
             font_size=DEFAULT_FONT_SIZE,
             font_color=DEFAULT_COLOR,
             text_alignment=TextAlignment.CENTER
         ),
         event_time=DrawableText(
-            size=(300, 200),
-            position=(630, -60),
+            size=(300, 70),
+            position=(630, 10),
             font_path=DEFAULT_FONT_BOLD,
             font_size=30,
             font_color=DEFAULT_COLOR,
             text_alignment=TextAlignment.LEFT
         ),
         event_place=DrawableText(
-            size=(200, 200),
-            position=(630, -20),
+            size=(200, 100),
+            position=(630, 40),
             font_path=DEFAULT_FONT,
             font_size=DEFAULT_FONT_SIZE,
             font_color=DEFAULT_COLOR,
