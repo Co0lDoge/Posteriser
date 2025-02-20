@@ -22,7 +22,7 @@ class Template:
     event_time: DrawableText
     event_place: DrawableText
 
-def get_default_template() -> Template: 
+def get_template_dualman() -> Template: 
     background_size = 900
     return Template(
         background_size=900,
