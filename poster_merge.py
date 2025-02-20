@@ -10,10 +10,10 @@ class PosterBuilder:
         self.template: Optional[Template] = None
         self.speaker_photo: Optional[ImageType] = None
         self.speaker_name: Optional[str] = None
-        self.speaker_name_info: Optional[str] = None
+        self.speaker_info: Optional[str] = None
         self.moderator_photo: Optional[ImageType] = None
         self.moderator_name: Optional[str] = None
-        self.moderator_name_info: Optional[str] = None
+        self.moderator_info: Optional[str] = None
         self.logo: Optional[ImageType] = None
         self.logo_info: Optional[str] = None
         self.background: Optional[ImageType] = None
@@ -35,8 +35,8 @@ class PosterBuilder:
         self.speaker_name = name
         return self
     
-    def set_speaker_name_info(self, name_info: str) -> "PosterBuilder":
-        self.speaker_name_info = name_info
+    def set_speaker_info(self, name_info: str) -> "PosterBuilder":
+        self.speaker_info = name_info
         return self
     
     def set_speaker_photo(self, photo: ImageType) -> "PosterBuilder":
@@ -47,8 +47,8 @@ class PosterBuilder:
         self.moderator_name = name
         return self
     
-    def set_moderator_name_info(self, name_info: str) -> "PosterBuilder":
-        self.moderator_name_info = name_info
+    def set_moderator_info(self, name_info: str) -> "PosterBuilder":
+        self.moderator_info = name_info
         return self
     
     def set_moderator_photo(self, photo: ImageType) -> "PosterBuilder":
@@ -97,9 +97,9 @@ class PosterBuilder:
         # Map each text field to its corresponding style from the template
         text_fields = [
             (self.speaker_name, self.template.speaker_name),
-            (self.speaker_name_info, self.template.speaker_name_info),
+            (self.speaker_info, self.template.speaker_info),
             (self.moderator_name, self.template.moderator_name),
-            (self.moderator_name_info, self.template.moderator_name_info),
+            (self.moderator_info, self.template.moderator_info),
             (self.logo_info, self.template.logo_info),
             (self.event_description, self.template.event_description),
             (self.event_title, self.template.event_title),

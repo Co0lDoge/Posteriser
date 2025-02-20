@@ -11,10 +11,10 @@ class Template:
     background_size: int
     speaker_photo: DrawableImage = None
     speaker_name: DrawableText = None
-    speaker_name_info: DrawableText = None
+    speaker_info: DrawableText = None
     moderator_photo: DrawableImage = None
     moderator_name: DrawableText = None
-    moderator_name_info: DrawableText = None
+    moderator_info: DrawableText = None
     logo: DrawableImage = None
     logo_info: DrawableText = None
     event_description: DrawableText = None
@@ -39,7 +39,7 @@ def get_template_dualman() -> Template:
             text_alignment=TextAlignment.LEFT,
             text_line=TextLine.LEFT
         ),
-        speaker_name_info=DrawableText(
+        speaker_info=DrawableText(
             size=(150, 100),
             position=(335, 620),
             font_path=DEFAULT_FONT,
@@ -60,7 +60,7 @@ def get_template_dualman() -> Template:
             text_alignment=TextAlignment.LEFT,
             text_line=TextLine.LEFT
         ),
-        moderator_name_info=DrawableText(
+        moderator_info=DrawableText(
             size=(150, 100),
             position=(435, 770),
             font_path=DEFAULT_FONT,

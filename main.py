@@ -10,10 +10,10 @@ POSTER_DEBUG = False
 
 (
     speaker_name,
-    speaker_name_info,
+    speaker_info,
     speaker_photo,
     moderator_name,
-    moderator_name_info,
+    moderator_info,
     moderator_photo,
     logo,
     logo_info,
@@ -47,10 +47,10 @@ poster = (
         .set_background(background)
         .set_speaker_photo(speaker_backgroundless_photo)
         .set_speaker_name(speaker_name)
-        .set_speaker_name_info(speaker_name_info)
+        .set_speaker_info(speaker_info)
         .set_moderator_photo(moderator_backgroundless_photo)
         .set_moderator_name(moderator_name)
-        .set_moderator_name_info(moderator_name_info)
+        .set_moderator_info(moderator_info)
         .set_logo(backgroundless_logo)
         .set_logo_info(logo_info)
         .set_event_description(corrected_text)
