@@ -32,6 +32,27 @@ def get_template_singleman() -> Template:
             font_color=DEFAULT_COLOR,
             text_alignment=TextAlignment.LEFT
         ),
+        moderator_photo=DrawableImage(
+            size=(None, 900),
+            position=(40, background_size-900),
+        ),
+        moderator_name=DrawableText(
+            size=(550, 200),
+            position=(730, 940),
+            font_path=DEFAULT_FONT_BOLD,
+            font_size=80,
+            font_color=DEFAULT_COLOR,
+            text_alignment=TextAlignment.LEFT,
+            text_line=TextLine.LEFT.set_line_width(DEFAULT_LINE_WIDTH)
+        ),
+        moderator_info=DrawableText(
+            size=(450, 200),
+            position=(735, 1100),
+            font_path=DEFAULT_FONT,
+            font_size=60,
+            font_color=DEFAULT_COLOR,
+            text_alignment=TextAlignment.LEFT
+        ),
         logo=DrawableImage(
             size=(90, 90),
             position=(40, 110),

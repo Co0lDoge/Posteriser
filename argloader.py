@@ -1,7 +1,7 @@
 def load_args():
-    name_1 = "Борис Борисов"
-    name_1_info = "Генеральный директор"
-    name_1_photo = "res/Professional-Headshot-Poses-Blog-Post-1.png"
+    name_1 = None
+    name_1_info = None
+    name_1_photo = None
     name_2 = "Николай Борисов"
     name_2_info = "Диванный директор"
     name_2_photo = "res/man.jpg"
