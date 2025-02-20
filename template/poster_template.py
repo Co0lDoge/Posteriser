@@ -9,18 +9,18 @@ DEFAULT_COLOR = (255, 255, 255)
 @dataclass
 class Template:
     background_size: int
-    speaker_photo: DrawableImage
-    speaker_name: DrawableText
-    speaker_name_info: DrawableText
-    moderator_photo: DrawableImage
-    moderator_name: DrawableText
-    moderator_name_info: DrawableText
-    logo: DrawableImage
-    logo_info: DrawableText
-    event_description: DrawableText
-    event_title: DrawableText
-    event_time: DrawableText
-    event_place: DrawableText
+    speaker_photo: DrawableImage = None
+    speaker_name: DrawableText = None
+    speaker_name_info: DrawableText = None
+    moderator_photo: DrawableImage = None
+    moderator_name: DrawableText = None
+    moderator_name_info: DrawableText = None
+    logo: DrawableImage = None
+    logo_info: DrawableText = None
+    event_description: DrawableText = None
+    event_title: DrawableText = None
+    event_time: DrawableText = None
+    event_place: DrawableText = None
 
 def get_template_dualman() -> Template: 
     background_size = 900
@@ -114,3 +114,8 @@ def get_template_dualman() -> Template:
             text_alignment=TextAlignment.LEFT
         )
 )
+
+def get_template_singleman() -> Template:
+    return Template(
+        background_size=900
+    )
