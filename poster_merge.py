@@ -5,10 +5,8 @@ from drawable.drawable_object import DrawableImage, DrawableText, TextAlignment,
 
 from typing import Optional
 
-POSTER_DEBUG = False
-
 class PosterBuilder:
-    def __init__(self):
+    def __init__(self, debug: bool):
         self.template: Optional[Template] = None
         self.speaker_photo: Optional[ImageType] = None
         self.speaker_name: Optional[str] = None
@@ -23,6 +21,7 @@ class PosterBuilder:
         self.event_title: Optional[str] = None
         self.event_time: Optional[str] = None
         self.event_place: Optional[str] = None
+        self.debug = debug
 
     def set_template(self, template: Template) -> "PosterBuilder":
         self.template = template
@@ -143,7 +142,7 @@ class PosterBuilder:
             foreground
         )
 
-        if POSTER_DEBUG:
+        if self.debug:
             debug_bbox = Image.new("RGBA", foreground.size, (255, 0, 0, 128))
             background.paste(
             debug_bbox,

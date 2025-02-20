@@ -90,8 +90,8 @@ def get_default_template() -> Template:
             text_line=TextLine.VERTICAL
         ),
         event_description=DrawableText(
-            size=(400, 200),
-            position=(270, 310),
+            size=(360, 200),
+            position=(290, 310),
             font_path=DEFAULT_FONT,
             font_size=DEFAULT_FONT_SIZE,
             font_color=DEFAULT_COLOR,

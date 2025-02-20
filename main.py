@@ -6,6 +6,8 @@ from text_transform import TextCorrector
 from poster_merge import PosterBuilder
 from template.poster_template import get_default_template
 
+POSTER_DEBUG = False
+
 (
     speaker_name,
     speaker_name_info,
@@ -38,7 +40,7 @@ backgroundless_logo = PhotoTransform.remove_background(logo)
 text_corrector = TextCorrector.get_default_corrector()
 corrected_text = text_corrector.fix_spelling(event_desc)
 
-poster_builder = PosterBuilder()
+poster_builder = PosterBuilder(POSTER_DEBUG)
 poster = (
         poster_builder
         .set_template(poster_template)
@@ -47,7 +49,7 @@ poster = (
         .set_speaker_name(speaker_name)
         .set_speaker_name_info(speaker_name_info)
         .set_moderator_photo(moderator_backgroundless_photo)
-        .set_moderator_name(moderator_name_info)
+        .set_moderator_name(moderator_name)
         .set_moderator_name_info(moderator_name_info)
         .set_logo(backgroundless_logo)
         .set_logo_info(logo_info)
