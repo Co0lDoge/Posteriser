@@ -1,5 +1,5 @@
 from template.poster_template import Template
-from template.templates import template_dualman, template_singleman
+from template.templates import template_dualman, template_singleman, template_noman
 
 def select_template(
     speaker_name:str,
@@ -14,5 +14,8 @@ def select_template(
 
     if (is_speaker_present and is_moderator_present):
         return template_dualman.get_template_dualman()
-    if (is_speaker_present or is_moderator_present):
+    elif (is_speaker_present or is_moderator_present):
         return template_singleman.get_template_singleman()
+    else:
+        return template_noman.get_template_noman()
+    
