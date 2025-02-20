@@ -7,8 +7,10 @@ from poster_merge import PosterBuilder
 from template.poster_template import get_default_template
 
 (
-    name,
-    name_info,
+    speaker_name,
+    speaker_name_info,
+    speaker_photo,
+    logo,
     logo_info,
     event_desc,
     event_title,
@@ -23,9 +25,9 @@ background = ImageGenerator.generate_image_gradient(
     height=poster_template.background_size
 )
 
-photo = Image.open('res/Professional-Headshot-Poses-Blog-Post-1.png')
-backgroundless_photo = PhotoTransform.remove_background(photo)
-logo = Image.open('res/logo_alt.png').convert("RGBA")
+speaker_photo = Image.open(speaker_photo)
+backgroundless_photo = PhotoTransform.remove_background(speaker_photo)
+logo = Image.open(logo).convert("RGBA")
 backgroundless_logo = PhotoTransform.remove_background(logo)
 
 text_corrector = TextCorrector.get_default_corrector()
@@ -40,8 +42,8 @@ poster = (
         .set_logo(backgroundless_logo)
         .set_logo_info(logo_info)
         .set_event_description(corrected_text)
-        .set_name(name)
-        .set_name_info(name_info)
+        .set_name(speaker_name)
+        .set_name_info(speaker_name_info)
         .set_event_title(event_title)
         .set_event_time(event_time)
         .set_event_place(event_place)

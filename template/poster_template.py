@@ -28,8 +28,8 @@ def get_default_template() -> Template:
             position=(-50, background_size - 600),
         ),
         logo=DrawableImage(
-            size=(110, 110),
-            position=(30, 30),
+            size=(80, 80),
+            position=(40, 30),
         ),
         logo_info=DrawableText(
             size=(500, 100),
