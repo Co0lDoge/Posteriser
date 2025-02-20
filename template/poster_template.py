@@ -5,6 +5,7 @@ DEFAULT_FONT = "arial.ttf"
 DEFAULT_FONT_BOLD = "arialbd.ttf"
 DEFAULT_FONT_SIZE = 24
 DEFAULT_COLOR = (255, 255, 255)
+DEFAULT_LINE_WIDTH = 2
 
 @dataclass
 class Template:
@@ -58,7 +59,7 @@ def get_template_dualman() -> Template:
             font_size=40,
             font_color=DEFAULT_COLOR,
             text_alignment=TextAlignment.LEFT,
-            text_line=TextLine.LEFT
+            text_line=TextLine.LEFT.set_line_width(DEFAULT_LINE_WIDTH)
         ),
         moderator_info=DrawableText(
             size=(150, 100),
@@ -87,7 +88,7 @@ def get_template_dualman() -> Template:
             font_size=70,
             font_color=DEFAULT_COLOR,
             text_alignment=TextAlignment.CENTER,
-            text_line=TextLine.VERTICAL
+            text_line=TextLine.VERTICAL.set_line_width(DEFAULT_LINE_WIDTH)
         ),
         event_description=DrawableText(
             size=(360, 200),
@@ -115,7 +116,3 @@ def get_template_dualman() -> Template:
         )
 )
 
-def get_template_singleman() -> Template:
-    return Template(
-        background_size=900
-    )

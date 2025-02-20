@@ -5,6 +5,7 @@ from photo_transform import PhotoTransform
 from text_transform import TextCorrector
 from poster_merge import PosterBuilder
 from template.poster_template import get_template_dualman
+from template.template_singleman import get_template_singleman
 
 POSTER_DEBUG = False
 
@@ -23,7 +24,7 @@ POSTER_DEBUG = False
     event_place
 ) = load_args()
 
-poster_template = get_template_dualman()
+poster_template = get_template_singleman()
 
 background = ImageGenerator.generate_image_gradient(
     width=poster_template.background_size, 

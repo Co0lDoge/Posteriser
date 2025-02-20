@@ -108,7 +108,7 @@ class PosterBuilder:
         ]
 
         for image, style in image_fields:
-            if image is not None:
+            if image is not None and style is not None: # TODO: Remove style is not None
                 resized_image = self.__resize_image(image, size=style.size)
                 poster = self.__paste_image(
                     background=poster,
@@ -117,7 +117,7 @@ class PosterBuilder:
             )
 
         for text, style in text_fields:
-            if text is not None:
+            if text is not None and style is not None: # TODO: Remove style is not None
                 poster = self.__paste_text(
                     text=text,
                     background=poster,
@@ -203,12 +203,12 @@ class PosterBuilder:
                 line_x_position = 5  # Offset from the left margin
                 line_y_start = y_position
                 line_y_end = y_position + total_text_height
-                draw.line([(line_x_position, line_y_start), (line_x_position, line_y_end)], fill="white", width=2)
+                draw.line([(line_x_position, line_y_start), (line_x_position, line_y_end)], fill="white", width=style.text_line.line_width)
             elif style.text_line == TextLine.VERTICAL:
                 line_x_start = 0
                 line_x_end = bbox[0]
-                draw.line([(line_x_start, y_position - 10), (line_x_end, y_position - 10)], fill="white", width=2)  # Top line
-                draw.line([(line_x_start, y_position + total_text_height + 20), (line_x_end, y_position + total_text_height + 20)], fill="white", width=2)  # Bottom line
+                draw.line([(line_x_start, y_position - 10), (line_x_end, y_position - 10)], fill="white", width=style.text_line.line_width)  # Top line
+                draw.line([(line_x_start, y_position + total_text_height + 20), (line_x_end, y_position + total_text_height + 20)], fill="white", width=style.text_line.line_width)  # Bottom line
 
         # Draw text
         for line in lines:
