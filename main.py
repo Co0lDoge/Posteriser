@@ -10,6 +10,9 @@ from template.poster_template import get_default_template
     speaker_name,
     speaker_name_info,
     speaker_photo,
+    moderator_name,
+    moderator_name_info,
+    moderator_photo,
     logo,
     logo_info,
     event_desc,
@@ -26,7 +29,9 @@ background = ImageGenerator.generate_image_gradient(
 )
 
 speaker_photo = Image.open(speaker_photo)
-backgroundless_photo = PhotoTransform.remove_background(speaker_photo)
+speaker_backgroundless_photo = PhotoTransform.remove_background(speaker_photo)
+moderator_photo = Image.open(moderator_photo)
+moderator_backgroundless_photo = PhotoTransform.remove_background(moderator_photo)
 logo = Image.open(logo).convert("RGBA")
 backgroundless_logo = PhotoTransform.remove_background(logo)
 
@@ -38,12 +43,15 @@ poster = (
         poster_builder
         .set_template(poster_template)
         .set_background(background)
-        .set_photo(backgroundless_photo)
+        .set_speaker_photo(speaker_backgroundless_photo)
+        .set_speaker_name(speaker_name)
+        .set_speaker_name_info(speaker_name_info)
+        .set_moderator_photo(moderator_backgroundless_photo)
+        .set_moderator_name(moderator_name_info)
+        .set_moderator_name_info(moderator_name_info)
         .set_logo(backgroundless_logo)
         .set_logo_info(logo_info)
         .set_event_description(corrected_text)
-        .set_name(speaker_name)
-        .set_name_info(speaker_name_info)
         .set_event_title(event_title)
         .set_event_time(event_time)
         .set_event_place(event_place)

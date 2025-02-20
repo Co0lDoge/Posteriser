@@ -10,11 +10,15 @@ POSTER_DEBUG = False
 class PosterBuilder:
     def __init__(self):
         self.template: Optional[Template] = None
-        self.photo: Optional[ImageType] = None
+        self.speaker_photo: Optional[ImageType] = None
+        self.speaker_name: Optional[str] = None
+        self.speaker_name_info: Optional[str] = None
+        self.moderator_photo: Optional[ImageType] = None
+        self.moderator_name: Optional[str] = None
+        self.moderator_name_info: Optional[str] = None
         self.logo: Optional[ImageType] = None
         self.logo_info: Optional[str] = None
         self.background: Optional[ImageType] = None
-        self.name: Optional[str] = None
         self.event_description: Optional[str] = None
         self.event_title: Optional[str] = None
         self.event_time: Optional[str] = None
@@ -28,16 +32,28 @@ class PosterBuilder:
         self.background = background
         return self
     
-    def set_name(self, name: str) -> "PosterBuilder":
-        self.name = name
+    def set_speaker_name(self, name: str) -> "PosterBuilder":
+        self.speaker_name = name
         return self
     
-    def set_name_info(self, name_info: str) -> "PosterBuilder":
-        self.name_info = name_info
+    def set_speaker_name_info(self, name_info: str) -> "PosterBuilder":
+        self.speaker_name_info = name_info
         return self
     
-    def set_photo(self, photo: ImageType) -> "PosterBuilder":
-        self.photo = photo
+    def set_speaker_photo(self, photo: ImageType) -> "PosterBuilder":
+        self.speaker_photo = photo
+        return self
+    
+    def set_moderator_name(self, name: str) -> "PosterBuilder":
+        self.moderator_name = name
+        return self
+    
+    def set_moderator_name_info(self, name_info: str) -> "PosterBuilder":
+        self.moderator_name_info = name_info
+        return self
+    
+    def set_moderator_photo(self, photo: ImageType) -> "PosterBuilder":
+        self.moderator_photo = photo
         return self
     
     def set_logo(self, logo: ImageType) -> "PosterBuilder":
@@ -74,14 +90,17 @@ class PosterBuilder:
 
         # Map each image field to its corresponding style from the template
         image_fields = [
-            (self.photo, self.template.photo),
+            (self.speaker_photo, self.template.speaker_photo),
+            (self.moderator_photo, self.template.moderator_photo),
             (self.logo, self.template.logo)
         ]
 
         # Map each text field to its corresponding style from the template
         text_fields = [
-            (self.name, self.template.name),
-            (self.name_info, self.template.name_info),
+            (self.speaker_name, self.template.speaker_name),
+            (self.speaker_name_info, self.template.speaker_name_info),
+            (self.moderator_name, self.template.moderator_name),
+            (self.moderator_name_info, self.template.moderator_name_info),
             (self.logo_info, self.template.logo_info),
             (self.event_description, self.template.event_description),
             (self.event_title, self.template.event_title),

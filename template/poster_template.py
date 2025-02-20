@@ -9,11 +9,14 @@ DEFAULT_COLOR = (255, 255, 255)
 @dataclass
 class Template:
     background_size: int
-    photo: DrawableImage
+    speaker_photo: DrawableImage
+    speaker_name: DrawableText
+    speaker_name_info: DrawableText
+    moderator_photo: DrawableImage
+    moderator_name: DrawableText
+    moderator_name_info: DrawableText
     logo: DrawableImage
     logo_info: DrawableText
-    name: DrawableText
-    name_info: DrawableText
     event_description: DrawableText
     event_title: DrawableText
     event_time: DrawableText
@@ -23,9 +26,47 @@ def get_default_template() -> Template:
     background_size = 900
     return Template(
         background_size=900,
-        photo=DrawableImage(
+        speaker_photo=DrawableImage(
             size=(None, 600),
             position=(-50, background_size - 600),
+        ),
+        speaker_name=DrawableText(
+            size=(220, 100),
+            position=(330, 540),
+            font_path=DEFAULT_FONT,
+            font_size=40,
+            font_color=DEFAULT_COLOR,
+            text_alignment=TextAlignment.LEFT,
+            text_line=TextLine.LEFT
+        ),
+        speaker_name_info=DrawableText(
+            size=(150, 100),
+            position=(335, 620),
+            font_path=DEFAULT_FONT,
+            font_size=20,
+            font_color=DEFAULT_COLOR,
+            text_alignment=TextAlignment.LEFT
+        ),
+        moderator_photo=DrawableImage(
+            size=(None, 600),
+            position=(600, background_size - 600),
+        ),
+        moderator_name=DrawableText(
+            size=(220, 100),
+            position=(430, 690),
+            font_path=DEFAULT_FONT,
+            font_size=40,
+            font_color=DEFAULT_COLOR,
+            text_alignment=TextAlignment.LEFT,
+            text_line=TextLine.LEFT
+        ),
+        moderator_name_info=DrawableText(
+            size=(150, 100),
+            position=(435, 770),
+            font_path=DEFAULT_FONT,
+            font_size=20,
+            font_color=DEFAULT_COLOR,
+            text_alignment=TextAlignment.LEFT
         ),
         logo=DrawableImage(
             size=(80, 80),
@@ -36,23 +77,6 @@ def get_default_template() -> Template:
             position=(110, 30),
             font_path=DEFAULT_FONT,
             font_size=40,
-            font_color=DEFAULT_COLOR,
-            text_alignment=TextAlignment.LEFT
-        ),
-        name=DrawableText(
-            size=(220, 100),
-            position=(330, 540),
-            font_path=DEFAULT_FONT,
-            font_size=40,
-            font_color=DEFAULT_COLOR,
-            text_alignment=TextAlignment.LEFT,
-            text_line=TextLine.LEFT
-        ),
-        name_info=DrawableText(
-            size=(150, 100),
-            position=(335, 620),
-            font_path=DEFAULT_FONT,
-            font_size=20,
             font_color=DEFAULT_COLOR,
             text_alignment=TextAlignment.LEFT
         ),
