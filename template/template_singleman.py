@@ -61,4 +61,20 @@ def get_template_singleman() -> Template:
             font_color=DEFAULT_COLOR,
             text_alignment=TextAlignment.CENTER
         ),
+        event_time=DrawableText(
+            size=(600, 200),
+            position=(960, 10),
+            font_path=DEFAULT_FONT_BOLD,
+            font_size=65,
+            font_color=DEFAULT_COLOR,
+            text_alignment=TextAlignment.LEFT
+        ),
+        event_place=DrawableText(
+            size=(500, 150),
+            position=(960, 70),
+            font_path=DEFAULT_FONT,
+            font_size=DEFAULT_FONT_SIZE,
+            font_color=DEFAULT_COLOR,
+            text_alignment=TextAlignment.LEFT
+        )
     )
