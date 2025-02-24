@@ -19,3 +19,26 @@ class ImageGenerator:
                 img.putpixel((x, y), color)
 
         return img
+    
+    from PIL import Image
+
+    def generate_transparent_gradient(width=900, height=900, start_color=(0, 0, 0), end_color=(0, 0, 255)):
+        # Create an image with an RGBA mode (supports transparency)
+        img = Image.new('RGBA', (width, height))
+
+        for y in range(height):
+            # Calculate the interpolation factor (0.0 at the top, 1.0 at the bottom)
+            factor = y / (height - 1)
+            
+            # Interpolate between fully transparent and the target color
+            color = (
+                int(start_color[0] * (1 - factor) + end_color[0] * factor),
+                int(start_color[1] * (1 - factor) + end_color[1] * factor),
+                int(start_color[2] * (1 - factor) + end_color[2] * factor),
+                int(255 * factor)  # Alpha value (0 at the top, 255 at the bottom)
+            )
+            
+            for x in range(width):
+                img.putpixel((x, y), color)
+
+        return img

@@ -36,6 +36,10 @@ background = ImageGenerator.generate_image_gradient(
     width=poster_template.background_size, 
     height=poster_template.background_size
 )
+overlay = ImageGenerator.generate_transparent_gradient(
+    width=poster_template.background_size, 
+    height=poster_template.background_size
+)
 if speaker_photo:
     speaker_photo = Image.open(speaker_photo)
     speaker_photo = PhotoTransform.remove_background(speaker_photo)
@@ -54,6 +58,7 @@ poster = (
         poster_builder
         .set_template(poster_template)
         .set_background(background)
+        .set_overlay(overlay)
         .set_speaker_photo(speaker_photo)
         .set_speaker_name(speaker_name)
         .set_speaker_info(speaker_info)

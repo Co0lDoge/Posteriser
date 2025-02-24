@@ -17,6 +17,7 @@ class PosterBuilder:
         self.logo: Optional[ImageType] = None
         self.logo_info: Optional[str] = None
         self.background: Optional[ImageType] = None
+        self.overlay: Optional[ImageType] = None
         self.event_description: Optional[str] = None
         self.event_title: Optional[str] = None
         self.event_time: Optional[str] = None
@@ -29,6 +30,10 @@ class PosterBuilder:
 
     def set_background(self, background: ImageType) -> "PosterBuilder":
         self.background = background
+        return self
+    
+    def set_overlay(self, overlay: ImageType) -> "PosterBuilder":
+        self.overlay = overlay
         return self
     
     def set_speaker_name(self, name: str) -> "PosterBuilder":
@@ -115,6 +120,13 @@ class PosterBuilder:
                     foreground=resized_image,
                     style=style
             )
+                
+        if self.overlay is not None:
+            poster = self.__paste_image(
+                background=poster,
+                foreground=self.overlay,
+                style=DrawableImage(self.template.background_size, (0, 0))
+            )
 
         for text, style in text_fields:
             if text is not None and style is not None: # TODO: Remove style is not None
@@ -123,6 +135,7 @@ class PosterBuilder:
                     background=poster,
                     style=style
                 )
+        
         return poster
     
     def __paste_text(self, background: ImageType, text: str, style: DrawableText):
