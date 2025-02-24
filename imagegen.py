@@ -22,13 +22,15 @@ class ImageGenerator:
     
     from PIL import Image
 
-    def generate_transparent_gradient(width=900, height=900, start_color=(0, 0, 0), end_color=(0, 0, 255)):
+    def generate_transparent_gradient(width=900, height=900, start_color=(0, 0, 255), end_color=(0, 0, 100), exponent=2):
         # Create an image with an RGBA mode (supports transparency)
         img = Image.new('RGBA', (width, height))
 
         for y in range(height):
-            # Calculate the interpolation factor (0.0 at the top, 1.0 at the bottom)
-            factor = y / (height - 1)
+            # Linear factor from 0.0 to 1.0
+            t = y / (height - 1)
+            # Apply non-linearity: with exponent > 1, the increase is slower at first and steeper at the end
+            factor = t ** exponent
             
             # Interpolate between fully transparent and the target color
             color = (

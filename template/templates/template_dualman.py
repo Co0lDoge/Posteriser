@@ -14,6 +14,7 @@ def get_template_dualman() -> Template:
         speaker_photo=DrawableImage(
             size=(None, 600),
             position=(-50, background_size - 600),
+            overlay=True
         ),
         speaker_name=DrawableText(
             size=(220, 100),

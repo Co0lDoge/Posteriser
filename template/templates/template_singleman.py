@@ -14,6 +14,7 @@ def get_template_singleman() -> Template:
         speaker_photo=DrawableImage(
             size=(None, 900),
             position=(40, background_size-900),
+            overlay=True
         ),
         speaker_name=DrawableText(
             size=(550, 200),
@@ -35,6 +36,7 @@ def get_template_singleman() -> Template:
         moderator_photo=DrawableImage(
             size=(None, 900),
             position=(40, background_size-900),
+            overlay=True
         ),
         moderator_name=DrawableText(
             size=(550, 200),

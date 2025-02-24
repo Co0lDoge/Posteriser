@@ -127,6 +127,15 @@ class PosterBuilder:
                 foreground=self.overlay,
                 style=DrawableImage(self.template.background_size, (0, 0))
             )
+        
+        for image, style in image_fields:
+            if image is not None and style is not None and style.overlay: # TODO: Remove style is not None
+                resized_image = self.__resize_image(image, size=style.size)
+                poster = self.__paste_image(
+                    background=poster,
+                    foreground=resized_image,
+                    style=style
+            )
 
         for text, style in text_fields:
             if text is not None and style is not None: # TODO: Remove style is not None

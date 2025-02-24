@@ -21,6 +21,7 @@ class TextLine(Enum):
 class DrawableImage():
     size: tuple[int, int]
     position: tuple[int, int]
+    overlay: bool = False
 
 @dataclass
 class DrawableText:
