@@ -1,10 +1,10 @@
 from PIL import Image
 from argloader import load_args
 from imagegen import ImageGenerator
-from photo_transform import PhotoTransform
+from background_remover import BackgroundRemover
 from text_transform import TextCorrector
-from poster_merge import PosterBuilder
-from template.poster_template import get_template_dualman
+from poster_builder import PosterBuilder
+from template.template_selector import select_template
 
 POSTER_DEBUG = False
 
@@ -23,19 +23,32 @@ POSTER_DEBUG = False
     event_place
 ) = load_args()
 
-poster_template = get_template_dualman()
+poster_template = select_template(
+    speaker_name,
+    speaker_info,
+    speaker_photo,
+    moderator_name,
+    moderator_info,
+    moderator_photo,
+)
 
 background = ImageGenerator.generate_image_gradient(
     width=poster_template.background_size, 
     height=poster_template.background_size
 )
-
-speaker_photo = Image.open(speaker_photo)
-speaker_backgroundless_photo = PhotoTransform.remove_background(speaker_photo)
-moderator_photo = Image.open(moderator_photo)
-moderator_backgroundless_photo = PhotoTransform.remove_background(moderator_photo)
-logo = Image.open(logo).convert("RGBA")
-backgroundless_logo = PhotoTransform.remove_background(logo)
+overlay = ImageGenerator.generate_transparent_gradient(
+    width=poster_template.background_size, 
+    height=poster_template.background_size
+)
+if speaker_photo:
+    speaker_photo = Image.open(speaker_photo)
+    speaker_photo = BackgroundRemover.remove_background(speaker_photo)
+if moderator_photo:
+    moderator_photo = Image.open(moderator_photo)
+    moderator_photo = BackgroundRemover.remove_background(moderator_photo)
+if logo:
+    logo = Image.open(logo).convert("RGBA")
+    backgroundless_logo = BackgroundRemover.remove_background(logo)
 
 text_corrector = TextCorrector.get_default_corrector()
 corrected_text = text_corrector.fix_spelling(event_desc)
@@ -45,10 +58,11 @@ poster = (
         poster_builder
         .set_template(poster_template)
         .set_background(background)
-        .set_speaker_photo(speaker_backgroundless_photo)
+        .set_overlay(overlay)
+        .set_speaker_photo(speaker_photo)
         .set_speaker_name(speaker_name)
         .set_speaker_info(speaker_info)
-        .set_moderator_photo(moderator_backgroundless_photo)
+        .set_moderator_photo(moderator_photo)
         .set_moderator_name(moderator_name)
         .set_moderator_info(moderator_info)
         .set_logo(backgroundless_logo)
