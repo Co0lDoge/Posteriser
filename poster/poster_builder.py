@@ -24,6 +24,7 @@ class PosterBuilder:
         self.event_title: Optional[str] = None
         self.event_time: Optional[str] = None
         self.event_place: Optional[str] = None
+        self.poster = None
         self.debug = debug
 
     def set_template(self, template: Template) -> "PosterBuilder":
@@ -92,7 +93,7 @@ class PosterBuilder:
         if self.template is None:
             raise ValueError("Template must be set before building the poster.")
 
-        poster = self.background.copy()
+        self.poster = self.background.copy()
 
         # Map each image field to its corresponding style from the template
         image_fields = [
@@ -137,15 +138,13 @@ class PosterBuilder:
         for image, style in image_fields:
             if image is not None and style is not None: # TODO: Remove style is not None
                 resized_image = resize_image(image, size=style.size)
-                poster = self.__paste_image(
-                    background=poster,
+                self.__paste_image(
                     foreground=resized_image,
                     style=style
             )
                 
         if self.overlay is not None:
-            poster = self.__paste_image(
-                background=poster,
+            self.__paste_image(
                 foreground=self.overlay,
                 style=DrawableImage(self.template.background_size, (0, 0))
             )
@@ -153,46 +152,38 @@ class PosterBuilder:
         for image, style in image_fields:
             if image is not None and style is not None and style.overlay: # TODO: Remove style is not None
                 resized_image = resize_image(image, size=style.size)
-                poster = self.__paste_image(
-                    background=poster,
+                self.__paste_image(
                     foreground=resized_image,
                     style=style
             )
 
         for text, style in text_fields:
             if text is not None and style is not None: # TODO: Remove style is not None
-                poster = self.__paste_text(
+                self.__paste_text(
                     text=text,
-                    background=poster,
                     style=style
                 )
         
         if text_groups is not None:
             for group in text_groups:
-                poster = self.__paste_text_group(
+                self.__paste_text_group(
                     group=group,
-                    background=poster
                 )
         
-        return poster
+        return self.poster
     
-    def __paste_text_group(self, group: list[tuple[str, DrawableText]], background: ImageType):
+    def __paste_text_group(self, group: list[tuple[str, DrawableText]]):
         wrap_text_group_image = wrap_text_group(group)
 
-        return self.__paste_image(background, wrap_text_group_image, group[0][1])
+        self.__paste_image(wrap_text_group_image, group[0][1])
     
-    def __paste_text(self, background: ImageType, text: str, style: DrawableText):
+    def __paste_text(self, text: str, style: DrawableText):
         wrapped_text_image = wrap_text(text, style)
 
-        return self.__paste_image(background, wrapped_text_image, style)
+        self.__paste_image(wrapped_text_image, style)
     
-    def __paste_image(self, background: ImageType, foreground: ImageType, style: DrawableImage):
-        background = Image.alpha_composite(
-            Image.new("RGBA", background.size),
-            background.convert('RGBA')
-        )
-
-        background.paste(
+    def __paste_image(self, foreground: ImageType, style: DrawableImage):
+        self.poster.paste(
             foreground,
             style.position,
             foreground
@@ -200,11 +191,9 @@ class PosterBuilder:
 
         if self.debug:
             debug_bbox = Image.new("RGBA", foreground.size, (255, 0, 0, 128))
-            background.paste(
+            self.poster.paste(
             debug_bbox,
             style.position,
             debug_bbox
         )
-
-        return background
         
