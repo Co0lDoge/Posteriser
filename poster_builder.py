@@ -175,16 +175,6 @@ class PosterBuilder:
         return background
     
     def __wrap_text(self, text: str, style: DrawableText):
-        """
-        Wraps text within a bounding box and returns an image.
-
-        Args:
-            text (str): The text to wrap.
-            style (DrawableText): An instance of DrawableText containing styling and layout information.
-
-        Returns:
-            Image: An image with the wrapped text.
-        """
         # Extract properties from the DrawableText object
         bbox = style.size
         color = style.font_color

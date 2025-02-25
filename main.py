@@ -1,9 +1,9 @@
 from PIL import Image
 from argloader import load_args
 from imagegen import ImageGenerator
-from photo_transform import PhotoTransform
+from background_remover import BackgroundRemover
 from text_transform import TextCorrector
-from poster_merge import PosterBuilder
+from poster_builder import PosterBuilder
 from template.template_selector import select_template
 
 POSTER_DEBUG = False
@@ -42,13 +42,13 @@ overlay = ImageGenerator.generate_transparent_gradient(
 )
 if speaker_photo:
     speaker_photo = Image.open(speaker_photo)
-    speaker_photo = PhotoTransform.remove_background(speaker_photo)
+    speaker_photo = BackgroundRemover.remove_background(speaker_photo)
 if moderator_photo:
     moderator_photo = Image.open(moderator_photo)
-    moderator_photo = PhotoTransform.remove_background(moderator_photo)
+    moderator_photo = BackgroundRemover.remove_background(moderator_photo)
 if logo:
     logo = Image.open(logo).convert("RGBA")
-    backgroundless_logo = PhotoTransform.remove_background(logo)
+    backgroundless_logo = BackgroundRemover.remove_background(logo)
 
 text_corrector = TextCorrector.get_default_corrector()
 corrected_text = text_corrector.fix_spelling(event_desc)
