@@ -3,7 +3,7 @@ from PIL.Image import Image as ImageType
 from template.poster_template import Template
 from drawable.drawable_object import DrawableImage, DrawableText
 from poster.poster_image import resize_image
-from poster.poster_text import wrap_text
+from poster.poster_text import wrap_text, wrap_text_group
 
 from typing import Optional
 
@@ -103,15 +103,20 @@ class PosterBuilder:
 
         # Map each text field to its corresponding style from the template
         text_fields = [
-            (self.speaker_name, self.template.speaker_name),
-            (self.speaker_info, self.template.speaker_info),
-            (self.moderator_name, self.template.moderator_name),
-            (self.moderator_info, self.template.moderator_info),
+            #(self.speaker_name, self.template.speaker_name),
+            #(self.speaker_info, self.template.speaker_info),
+            #(self.moderator_name, self.template.moderator_name),
+            #(self.moderator_info, self.template.moderator_info),
             (self.logo_info, self.template.logo_info),
             (self.event_description, self.template.event_description),
             (self.event_title, self.template.event_title),
             (self.event_time, self.template.event_time),
             (self.event_place, self.template.event_place),
+        ]
+
+        text_groups = [
+            list([(self.speaker_name, self.template.speaker_name), (self.speaker_info, self.template.speaker_info)]),
+            list([(self.moderator_name, self.template.moderator_name), (self.moderator_info, self.template.moderator_info)]),
         ]
 
         for image, style in image_fields:
@@ -147,7 +152,18 @@ class PosterBuilder:
                     style=style
                 )
         
+        for group in text_groups:
+            poster = self.__paste_text_group(
+                group=group,
+                background=poster
+            )
+        
         return poster
+    
+    def __paste_text_group(self, group: list[tuple[str, DrawableText]], background: ImageType):
+        wrap_text_group_image = wrap_text_group(group)
+
+        return self.__paste_image(background, wrap_text_group_image, group[0][1])
     
     def __paste_text(self, background: ImageType, text: str, style: DrawableText):
         wrapped_text_image = wrap_text(text, style)

@@ -36,6 +36,85 @@ def wrap_text(text: str, style: DrawableText) -> Image.Image:
 
     return image
 
+def wrap_text_group(items: List[tuple[str, DrawableText]]) -> Image.Image:
+    image_list = []
+    for text, style in items:
+        width, height = style.size
+        font_color = style.font_color
+        font_path = style.font_path
+        font_size = style.font_size
+
+        # Create a transparent image
+        image = Image.new("RGBA", (width, height), (255, 255, 255, 0))
+        draw = ImageDraw.Draw(image)
+
+        # Font selection with fallback
+        try:
+            font = ImageFont.truetype(font_path, font_size)
+        except IOError:
+            font = ImageFont.load_default()
+
+        # Early return if text is empty
+        if not text.strip():
+            return image
+
+        # Wrap the text into lines
+        lines = wrap_text_to_lines(text, font, width, draw)
+        total_text_height = len(lines) * font_size
+        starting_y = 0  # Top margin
+
+        # Draw the text lines with alignment
+        draw_text_lines(draw, lines, font, starting_y, style.text_alignment, font_color, width, font_size)
+
+        image_list.append(image)
+    
+    # Concatenate all the images horizontally (left-aligned)
+    return concat_images_vertically(image_list)
+
+def concat_images_horizontally(images: List[Image.Image]) -> Image.Image:
+    """
+    Concatenates a list of images horizontally.
+    The resulting image's height is set to the maximum height among all images,
+    and images are pasted side-by-side from left to right.
+    """
+    if not images:
+        raise ValueError("No images to concatenate.")
+
+    total_width = sum(image.width for image in images)
+    max_height = max(image.height for image in images)
+    
+    # Create a new transparent image to hold the concatenated result
+    result_image = Image.new("RGBA", (total_width, max_height), (255, 255, 255, 0))
+    x_offset = 0
+
+    for image in images:
+        result_image.paste(image, (x_offset, 0), image)
+        x_offset += image.width
+
+    return result_image
+
+def concat_images_vertically(images: List[Image.Image]) -> Image.Image:
+    """
+    Concatenates a list of images vertically.
+    The resulting image's width is set to the maximum width among all images,
+    and images are pasted from top to bottom.
+    """
+    if not images:
+        raise ValueError("No images to concatenate.")
+
+    max_width = max(image.width for image in images)
+    total_height = sum(image.height for image in images)
+    
+    # Create a new transparent image to hold the concatenated result
+    result_image = Image.new("RGBA", (max_width, total_height), (255, 255, 255, 0))
+    y_offset = 0
+
+    for image in images:
+        result_image.paste(image, (0, y_offset), image)
+        y_offset += image.height
+
+    return result_image
+
 def wrap_text_to_lines(text: str, font: ImageFont.ImageFont, max_width: int, draw: ImageDraw.ImageDraw) -> List[str]:
     """Wraps the given text into lines that fit within max_width."""
     words = text.split()
