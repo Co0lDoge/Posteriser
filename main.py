@@ -3,7 +3,7 @@ from argloader import load_args
 from imagegen import ImageGenerator
 from background_remover import BackgroundRemover
 from text_transform import TextCorrector
-from poster_builder import PosterBuilder
+from poster.poster_builder import PosterBuilder
 from template.template_selector import select_template
 
 POSTER_DEBUG = False

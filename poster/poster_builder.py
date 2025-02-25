@@ -1,7 +1,9 @@
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image
 from PIL.Image import Image as ImageType
 from template.poster_template import Template
-from drawable.drawable_object import DrawableImage, DrawableText, TextAlignment, TextLine
+from drawable.drawable_object import DrawableImage, DrawableText
+from poster.poster_image import resize_image
+from poster.poster_text import wrap_text, wrap_text_group
 
 from typing import Optional
 
@@ -22,6 +24,7 @@ class PosterBuilder:
         self.event_title: Optional[str] = None
         self.event_time: Optional[str] = None
         self.event_place: Optional[str] = None
+        self.poster = None
         self.debug = debug
 
     def set_template(self, template: Template) -> "PosterBuilder":
@@ -90,7 +93,7 @@ class PosterBuilder:
         if self.template is None:
             raise ValueError("Template must be set before building the poster.")
 
-        poster = self.background.copy()
+        self.poster = self.background.copy()
 
         # Map each image field to its corresponding style from the template
         image_fields = [
@@ -112,53 +115,75 @@ class PosterBuilder:
             (self.event_place, self.template.event_place),
         ]
 
+        if self.template.groups is not None:
+            text_groups = [
+                group for group in [
+                    [
+                        (getattr(self, attr), getattr(self.template, attr)) 
+                        for attr in group 
+                        if getattr(self, attr) is not None
+                    ]
+                    for group in self.template.groups.values()
+                ] if group  # Keep only non-empty groups
+            ]
+
+            # Flatten text_groups to create a set of items to remove from text_fields
+            grouped_items = [item for group in text_groups for item in group]
+
+            # Filter text_fields by removing any item that appears in grouped_items
+            text_fields = [item for item in text_fields if item not in grouped_items]
+        else:
+            text_groups = None
+
         for image, style in image_fields:
             if image is not None and style is not None: # TODO: Remove style is not None
-                resized_image = self.__resize_image(image, size=style.size)
-                poster = self.__paste_image(
-                    background=poster,
+                resized_image = resize_image(image, size=style.size)
+                self.__paste_image(
                     foreground=resized_image,
                     style=style
             )
                 
         if self.overlay is not None:
-            poster = self.__paste_image(
-                background=poster,
+            self.__paste_image(
                 foreground=self.overlay,
                 style=DrawableImage(self.template.background_size, (0, 0))
             )
         
         for image, style in image_fields:
             if image is not None and style is not None and style.overlay: # TODO: Remove style is not None
-                resized_image = self.__resize_image(image, size=style.size)
-                poster = self.__paste_image(
-                    background=poster,
+                resized_image = resize_image(image, size=style.size)
+                self.__paste_image(
                     foreground=resized_image,
                     style=style
             )
 
         for text, style in text_fields:
             if text is not None and style is not None: # TODO: Remove style is not None
-                poster = self.__paste_text(
+                self.__paste_text(
                     text=text,
-                    background=poster,
                     style=style
                 )
         
-        return poster
+        if text_groups is not None:
+            for group in text_groups:
+                self.__paste_text_group(
+                    group=group,
+                )
+        
+        return self.poster
     
-    def __paste_text(self, background: ImageType, text: str, style: DrawableText):
-        wrapped_text_image = self.__wrap_text(text, style)
+    def __paste_text_group(self, group: list[tuple[str, DrawableText]]):
+        wrap_text_group_image = wrap_text_group(group)
 
-        return self.__paste_image(background, wrapped_text_image, style)
+        self.__paste_image(wrap_text_group_image, group[0][1])
     
-    def __paste_image(self, background: ImageType, foreground: ImageType, style: DrawableImage):
-        background = Image.alpha_composite(
-            Image.new("RGBA", background.size),
-            background.convert('RGBA')
-        )
+    def __paste_text(self, text: str, style: DrawableText):
+        wrapped_text_image = wrap_text(text, style)
 
-        background.paste(
+        self.__paste_image(wrapped_text_image, style)
+    
+    def __paste_image(self, foreground: ImageType, style: DrawableImage):
+        self.poster.paste(
             foreground,
             style.position,
             foreground
@@ -166,104 +191,9 @@ class PosterBuilder:
 
         if self.debug:
             debug_bbox = Image.new("RGBA", foreground.size, (255, 0, 0, 128))
-            background.paste(
+            self.poster.paste(
             debug_bbox,
             style.position,
             debug_bbox
         )
-
-        return background
-    
-    def __wrap_text(self, text: str, style: DrawableText):
-        # Extract properties from the DrawableText object
-        bbox = style.size
-        color = style.font_color
-        font_path = style.font_path
-        font_size = style.font_size
-
-        # Create a transparent image
-        image = Image.new("RGBA", bbox, (255, 255, 255, 0))
-        draw = ImageDraw.Draw(image)
-
-        # Font Selection
-        try:
-            font = ImageFont.truetype(font_path, font_size)  # Use the specified font
-        except IOError:
-            font = ImageFont.load_default()  # Fallback to default font
-
-        # Wrap the text
-        lines = []
-        words = text.split()
-        current_line = words[0]
-
-        for word in words[1:]:
-            # Check if adding the next word exceeds the bounding box width
-            if draw.textlength(current_line + " " + word, font=font) <= bbox[0]:
-                current_line += " " + word
-            else:
-                lines.append(current_line)
-                current_line = word
-        lines.append(current_line)
-
-        # Set vertical alignment to the top 
-        total_text_height = len(lines) * font_size
-        y_position = 20
-        
-        # Draw lines if specified in style
-        if style.text_line:
-            if style.text_line == TextLine.LEFT:
-                line_x_position = 5  # Offset from the left margin
-                line_y_start = y_position
-                line_y_end = y_position + total_text_height
-                draw.line([(line_x_position, line_y_start), (line_x_position, line_y_end)], fill="white", width=style.text_line.line_width)
-            elif style.text_line == TextLine.VERTICAL:
-                line_x_start = 0
-                line_x_end = bbox[0]
-                draw.line([(line_x_start, y_position - 10), (line_x_end, y_position - 10)], fill="white", width=style.text_line.line_width)  # Top line
-                draw.line([(line_x_start, y_position + total_text_height + 20), (line_x_end, y_position + total_text_height + 20)], fill="white", width=style.text_line.line_width)  # Bottom line
-
-        # Draw text
-        for line in lines:
-            line_width = draw.textlength(line, font=font)
-            match style.text_alignment:
-                case TextAlignment.CENTER:
-                    x_position = (bbox[0] - line_width) // 2
-                case TextAlignment.LEFT:
-                    x_position = 10  # Indent slightly to avoid overlap with the line
-
-            match style.text_alignment:
-                case TextAlignment.CENTER:
-                    x_position = (bbox[0] - line_width) // 2
-                case TextAlignment.LEFT:
-                    x_position = 20
-
-            draw.text((x_position, y_position), line, font=font, fill=color)
-            y_position += font_size  # Move to the next line
-
-        return image
-    
-    def __resize_image(self, image: ImageType, size: tuple[int, int]):
-        # Get the original dimensions
-        original_width, original_height = image.size
-
-        width, height = size
-
-        # If both width and height are None, return the original image
-        if width is None and height is None:
-            return image
-
-        # Calculate the new dimensions while maintaining the aspect ratio
-        if width is None:
-            # Calculate the width based on the desired height
-            aspect_ratio = original_width / original_height
-            width = int(height * aspect_ratio)
-        elif height is None:
-            # Calculate the height based on the desired width
-            aspect_ratio = original_height / original_width
-            height = int(width * aspect_ratio)
-
-        # Resize the image with the computed dimensions
-        resized_image = image.resize((width, height), Image.LANCZOS)
-
-        return resized_image
         

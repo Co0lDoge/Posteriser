@@ -42,7 +42,7 @@ def get_template_noman() -> Template:
         ),
         event_time=DrawableText(
             size=(600, 200),
-            position=(960, 10),
+            position=(960, 30),
             font_path=DEFAULT_FONT_BOLD,
             font_size=65,
             font_color=DEFAULT_COLOR,
@@ -55,5 +55,8 @@ def get_template_noman() -> Template:
             font_size=DEFAULT_FONT_SIZE,
             font_color=DEFAULT_COLOR,
             text_alignment=TextAlignment.LEFT
-        )
+        ),
+        groups = {
+            "time_place": ["event_time", "event_place"],
+        }
     )

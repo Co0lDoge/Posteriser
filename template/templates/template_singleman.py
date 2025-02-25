@@ -31,7 +31,8 @@ def get_template_singleman() -> Template:
             font_path=DEFAULT_FONT,
             font_size=60,
             font_color=DEFAULT_COLOR,
-            text_alignment=TextAlignment.LEFT
+            text_alignment=TextAlignment.LEFT,
+            text_line=TextLine.LEFT.set_line_width(DEFAULT_LINE_WIDTH)
         ),
         moderator_photo=DrawableImage(
             size=(None, 900),
@@ -53,7 +54,8 @@ def get_template_singleman() -> Template:
             font_path=DEFAULT_FONT,
             font_size=60,
             font_color=DEFAULT_COLOR,
-            text_alignment=TextAlignment.LEFT
+            text_alignment=TextAlignment.LEFT,
+            text_line=TextLine.LEFT.set_line_width(DEFAULT_LINE_WIDTH)
         ),
         logo=DrawableImage(
             size=(90, 90),
@@ -86,7 +88,7 @@ def get_template_singleman() -> Template:
         ),
         event_time=DrawableText(
             size=(600, 200),
-            position=(960, 10),
+            position=(960, 30),
             font_path=DEFAULT_FONT_BOLD,
             font_size=65,
             font_color=DEFAULT_COLOR,
@@ -99,5 +101,10 @@ def get_template_singleman() -> Template:
             font_size=DEFAULT_FONT_SIZE,
             font_color=DEFAULT_COLOR,
             text_alignment=TextAlignment.LEFT
-        )
+        ),
+        groups = {
+            "speaker": ["speaker_name", "speaker_info"],
+            "moderator": ["moderator_name", "moderator_info"],
+            "time_place": ["event_time", "event_place"],
+        }
     )
