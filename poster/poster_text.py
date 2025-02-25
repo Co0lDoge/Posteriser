@@ -39,14 +39,10 @@ def wrap_text(text: str, style: DrawableText) -> Image.Image:
 def wrap_text_group(items: List[tuple[str, DrawableText]]) -> Image.Image:
     image_list = []
     for text, style in items:
-        width, height = style.size
+        width = style.size[0]  # Use the given width; height will be computed dynamically.
         font_color = style.font_color
         font_path = style.font_path
         font_size = style.font_size
-
-        # Create a transparent image
-        image = Image.new("RGBA", (width, height), (255, 255, 255, 0))
-        draw = ImageDraw.Draw(image)
 
         # Font selection with fallback
         try:
@@ -54,22 +50,44 @@ def wrap_text_group(items: List[tuple[str, DrawableText]]) -> Image.Image:
         except IOError:
             font = ImageFont.load_default()
 
-        # Early return if text is empty
+        # Early check: if text is empty, create a minimal blank image.
         if not text.strip():
-            return image
+            blank_image = Image.new("RGBA", (width, 1), (255, 255, 255, 0))
+            image_list.append(blank_image)
+            continue
 
-        # Wrap the text into lines
-        lines = wrap_text_to_lines(text, font, width, draw)
+        # Create a dummy image (height doesn't matter here) to compute text wrapping.
+        dummy_image = Image.new("RGBA", (width, 1), (255, 255, 255, 0))
+        dummy_draw = ImageDraw.Draw(dummy_image)
+        lines = wrap_text_to_lines(text, font, width, dummy_draw)
+
+        # Calculate total height required for the text.
         total_text_height = len(lines) * font_size
-        starting_y = 0  # Top margin
+        starting_y = 0  # Top margin (adjust if needed)
+        final_height = starting_y + total_text_height
 
-        # Draw the text lines with alignment
+        # Now create the final image with the computed height.
+        image = Image.new("RGBA", (width, final_height), (255, 255, 255, 0))
+        draw = ImageDraw.Draw(image)
+
+        # Draw the text lines with the desired alignment.
         draw_text_lines(draw, lines, font, starting_y, style.text_alignment, font_color, width, font_size)
 
         image_list.append(image)
-    
-    # Concatenate all the images horizontally (left-aligned)
-    return concat_images_vertically(image_list)
+
+    # Concatenate all the images vertically (top-aligned)
+    combined_image = concat_images_vertically(image_list)
+
+    # Draw a decorative line along the left edge of the combined image,
+    # using the style from the first item (if it specifies a left decorative line).
+    first_style = items[0][1]
+    if first_style.text_line and first_style.text_line == TextLine.LEFT:
+        combined_draw = ImageDraw.Draw(combined_image)
+        combined_width, combined_height = combined_image.size
+        # starting_y is 0 and total_text_height is the full height of the combined image.
+        draw_decorative_lines(combined_draw, first_style, 0, combined_height, combined_width)
+
+    return combined_image
 
 def concat_images_horizontally(images: List[Image.Image]) -> Image.Image:
     """

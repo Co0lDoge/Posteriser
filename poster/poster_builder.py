@@ -103,10 +103,10 @@ class PosterBuilder:
 
         # Map each text field to its corresponding style from the template
         text_fields = [
-            #(self.speaker_name, self.template.speaker_name),
-            #(self.speaker_info, self.template.speaker_info),
-            #(self.moderator_name, self.template.moderator_name),
-            #(self.moderator_info, self.template.moderator_info),
+            (self.speaker_name, self.template.speaker_name),
+            (self.speaker_info, self.template.speaker_info),
+            (self.moderator_name, self.template.moderator_name),
+            (self.moderator_info, self.template.moderator_info),
             (self.logo_info, self.template.logo_info),
             (self.event_description, self.template.event_description),
             (self.event_title, self.template.event_title),
@@ -114,10 +114,25 @@ class PosterBuilder:
             (self.event_place, self.template.event_place),
         ]
 
-        text_groups = [
-            list([(self.speaker_name, self.template.speaker_name), (self.speaker_info, self.template.speaker_info)]),
-            list([(self.moderator_name, self.template.moderator_name), (self.moderator_info, self.template.moderator_info)]),
-        ]
+        if self.template.groups is not None:
+            text_groups = [
+                group for group in [
+                    [
+                        (getattr(self, attr), getattr(self.template, attr)) 
+                        for attr in group 
+                        if getattr(self, attr) is not None
+                    ]
+                    for group in self.template.groups.values()
+                ] if group  # Keep only non-empty groups
+            ]
+
+            # Flatten text_groups to create a set of items to remove from text_fields
+            grouped_items = [item for group in text_groups for item in group]
+
+            # Filter text_fields by removing any item that appears in grouped_items
+            text_fields = [item for item in text_fields if item not in grouped_items]
+        else:
+            text_groups = None
 
         for image, style in image_fields:
             if image is not None and style is not None: # TODO: Remove style is not None
@@ -152,11 +167,12 @@ class PosterBuilder:
                     style=style
                 )
         
-        for group in text_groups:
-            poster = self.__paste_text_group(
-                group=group,
-                background=poster
-            )
+        if text_groups is not None:
+            for group in text_groups:
+                poster = self.__paste_text_group(
+                    group=group,
+                    background=poster
+                )
         
         return poster
     

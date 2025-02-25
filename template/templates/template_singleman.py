@@ -99,5 +99,9 @@ def get_template_singleman() -> Template:
             font_size=DEFAULT_FONT_SIZE,
             font_color=DEFAULT_COLOR,
             text_alignment=TextAlignment.LEFT
-        )
+        ),
+        groups = {
+            "speaker": ["speaker_name", "speaker_info"],
+            "moderator": ["moderator_name", "moderator_info"]
+        }
     )

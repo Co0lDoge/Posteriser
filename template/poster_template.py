@@ -1,4 +1,4 @@
-from drawable.drawable_object import DrawableImage, DrawableText, TextAlignment, TextLine
+from drawable.drawable_object import DrawableImage, DrawableText
 from dataclasses import dataclass
 
 @dataclass
@@ -16,3 +16,4 @@ class Template:
     event_title: DrawableText = None
     event_time: DrawableText = None
     event_place: DrawableText = None
+    groups: dict[list[DrawableText]] = None
