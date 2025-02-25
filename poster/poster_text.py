@@ -1,70 +1,104 @@
 from drawable.drawable_object import DrawableText, TextAlignment, TextLine
 from PIL import Image, ImageDraw, ImageFont
+from typing import List
 
-def wrap_text(text: str, style: DrawableText):
-        # Extract properties from the DrawableText object
-        bbox = style.size
-        color = style.font_color
-        font_path = style.font_path
-        font_size = style.font_size
+def wrap_text(text: str, style: DrawableText) -> Image.Image:
+    width, height = style.size
+    font_color = style.font_color
+    font_path = style.font_path
+    font_size = style.font_size
 
-        # Create a transparent image
-        image = Image.new("RGBA", bbox, (255, 255, 255, 0))
-        draw = ImageDraw.Draw(image)
+    # Create a transparent image
+    image = Image.new("RGBA", (width, height), (255, 255, 255, 0))
+    draw = ImageDraw.Draw(image)
 
-        # Font Selection
-        try:
-            font = ImageFont.truetype(font_path, font_size)  # Use the specified font
-        except IOError:
-            font = ImageFont.load_default()  # Fallback to default font
+    # Font selection with fallback
+    try:
+        font = ImageFont.truetype(font_path, font_size)
+    except IOError:
+        font = ImageFont.load_default()
 
-        # Wrap the text
-        lines = []
-        words = text.split()
-        current_line = words[0]
-
-        for word in words[1:]:
-            # Check if adding the next word exceeds the bounding box width
-            if draw.textlength(current_line + " " + word, font=font) <= bbox[0]:
-                current_line += " " + word
-            else:
-                lines.append(current_line)
-                current_line = word
-        lines.append(current_line)
-
-        # Set vertical alignment to the top 
-        total_text_height = len(lines) * font_size
-        y_position = 20
-        
-        # Draw lines if specified in style
-        if style.text_line:
-            if style.text_line == TextLine.LEFT:
-                line_x_position = 5  # Offset from the left margin
-                line_y_start = y_position
-                line_y_end = y_position + total_text_height
-                draw.line([(line_x_position, line_y_start), (line_x_position, line_y_end)], fill="white", width=style.text_line.line_width)
-            elif style.text_line == TextLine.VERTICAL:
-                line_x_start = 0
-                line_x_end = bbox[0]
-                draw.line([(line_x_start, y_position - 10), (line_x_end, y_position - 10)], fill="white", width=style.text_line.line_width)  # Top line
-                draw.line([(line_x_start, y_position + total_text_height + 20), (line_x_end, y_position + total_text_height + 20)], fill="white", width=style.text_line.line_width)  # Bottom line
-
-        # Draw text
-        for line in lines:
-            line_width = draw.textlength(line, font=font)
-            match style.text_alignment:
-                case TextAlignment.CENTER:
-                    x_position = (bbox[0] - line_width) // 2
-                case TextAlignment.LEFT:
-                    x_position = 10  # Indent slightly to avoid overlap with the line
-
-            match style.text_alignment:
-                case TextAlignment.CENTER:
-                    x_position = (bbox[0] - line_width) // 2
-                case TextAlignment.LEFT:
-                    x_position = 20
-
-            draw.text((x_position, y_position), line, font=font, fill=color)
-            y_position += font_size  # Move to the next line
-
+    # Early return if text is empty
+    if not text.strip():
         return image
+
+    # Wrap the text into lines
+    lines = wrap_text_to_lines(text, font, width, draw)
+    total_text_height = len(lines) * font_size
+    starting_y = 20  # Top margin
+
+    # Draw decorative lines if specified
+    if style.text_line:
+        draw_decorative_lines(draw, style, starting_y, total_text_height, width)
+
+    # Draw the text lines with alignment
+    draw_text_lines(draw, lines, font, starting_y, style.text_alignment, font_color, width, font_size)
+
+    return image
+
+def wrap_text_to_lines(text: str, font: ImageFont.ImageFont, max_width: int, draw: ImageDraw.ImageDraw) -> List[str]:
+    """Wraps the given text into lines that fit within max_width."""
+    words = text.split()
+    if not words:
+        return []
+    
+    lines = []
+    current_line = words[0]
+    
+    for word in words[1:]:
+        test_line = f"{current_line} {word}"
+        if draw.textlength(test_line, font=font) <= max_width:
+            current_line = test_line
+        else:
+            lines.append(current_line)
+            current_line = word
+    lines.append(current_line)
+    return lines
+
+def draw_decorative_lines(draw: ImageDraw.ImageDraw, style: DrawableText, y_position: int, total_text_height: int, bbox_width: int):
+    """Draws decorative lines on the image based on the style settings."""
+    line_width = style.text_line.line_width
+    if style.text_line == TextLine.LEFT:
+        # Draw a vertical line near the left edge
+        x_line = 5
+        draw.line(
+            [(x_line, y_position), (x_line, y_position + total_text_height)],
+            fill="white",
+            width=line_width,
+        )
+    elif style.text_line == TextLine.VERTICAL:
+        # Draw horizontal lines above and below the text block
+        draw.line(
+            [(0, y_position - 10), (bbox_width, y_position - 10)],
+            fill="white",
+            width=line_width,
+        )
+        draw.line(
+            [(0, y_position + total_text_height + 20), (bbox_width, y_position + total_text_height + 20)],
+            fill="white",
+            width=line_width,
+        )
+
+def draw_text_lines(
+    draw: ImageDraw.ImageDraw,
+    lines: List[str],
+    font: ImageFont.ImageFont,
+    starting_y: int,
+    alignment: TextAlignment,
+    text_color,
+    bbox_width: int,
+    font_size: int
+):
+    """Draws the provided lines of text onto the image with the specified alignment."""
+    y_position = starting_y
+    for line in lines:
+        line_length = draw.textlength(line, font=font)
+        if alignment == TextAlignment.CENTER:
+            x_position = (bbox_width - line_length) // 2
+        elif alignment == TextAlignment.LEFT:
+            x_position = 20  # A left margin to avoid overlap with decorative lines
+        else:
+            x_position = 0  # Default fallback
+
+        draw.text((x_position, y_position), line, font=font, fill=text_color)
+        y_position += font_size

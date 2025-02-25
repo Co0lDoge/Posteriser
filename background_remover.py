@@ -1,5 +1,4 @@
 from rembg import remove
-from PIL import Image
 
 class BackgroundRemover:
     def remove_background(img):
