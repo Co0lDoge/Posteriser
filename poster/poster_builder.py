@@ -16,6 +16,9 @@ class PosterBuilder:
         self.moderator_photo: Optional[ImageType] = None
         self.moderator_name: Optional[str] = None
         self.moderator_info: Optional[str] = None
+        self.presenter_photo: Optional[ImageType] = None
+        self.presenter_name: Optional[str] = None
+        self.presenter_info: Optional[str] = None
         self.logo: Optional[ImageType] = None
         self.logo_info: Optional[str] = None
         self.background: Optional[ImageType] = None
@@ -43,8 +46,8 @@ class PosterBuilder:
         self.speaker_name = name
         return self
     
-    def set_speaker_info(self, name_info: str) -> "PosterBuilder":
-        self.speaker_info = name_info
+    def set_speaker_info(self, info: str) -> "PosterBuilder":
+        self.speaker_info = info
         return self
     
     def set_speaker_photo(self, photo: ImageType) -> "PosterBuilder":
@@ -55,12 +58,24 @@ class PosterBuilder:
         self.moderator_name = name
         return self
     
-    def set_moderator_info(self, name_info: str) -> "PosterBuilder":
-        self.moderator_info = name_info
+    def set_moderator_info(self, info: str) -> "PosterBuilder":
+        self.moderator_info = info
         return self
     
     def set_moderator_photo(self, photo: ImageType) -> "PosterBuilder":
         self.moderator_photo = photo
+        return self
+
+    def set_presenter_name(self, name: str) -> "PosterBuilder":
+        self.presenter_name = name
+        return self
+
+    def set_presenter_info(self, info: str) -> "PosterBuilder":
+        self.presenter_info = info
+        return self
+
+    def set_presenter_photo(self, photo: ImageType) -> "PosterBuilder":
+        self.presenter_photo = photo
         return self
     
     def set_logo(self, logo: ImageType) -> "PosterBuilder":
@@ -99,6 +114,7 @@ class PosterBuilder:
         image_fields = [
             (self.speaker_photo, self.template.speaker_photo),
             (self.moderator_photo, self.template.moderator_photo),
+            (self.presenter_photo, self.template.presenter_photo),
             (self.logo, self.template.logo)
         ]
 
@@ -108,6 +124,8 @@ class PosterBuilder:
             (self.speaker_info, self.template.speaker_info),
             (self.moderator_name, self.template.moderator_name),
             (self.moderator_info, self.template.moderator_info),
+            (self.presenter_name, self.template.presenter_name),
+            (self.presenter_info, self.template.presenter_info),
             (self.logo_info, self.template.logo_info),
             (self.event_description, self.template.event_description),
             (self.event_title, self.template.event_title),

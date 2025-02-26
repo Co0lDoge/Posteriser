@@ -10,6 +10,9 @@ class Template:
     moderator_photo: DrawableImage = None
     moderator_name: DrawableText = None
     moderator_info: DrawableText = None
+    presenter_photo: DrawableImage = None
+    presenter_name: DrawableText = None
+    presenter_info: DrawableText = None
     logo: DrawableImage = None
     logo_info: DrawableText = None
     event_description: DrawableText = None
