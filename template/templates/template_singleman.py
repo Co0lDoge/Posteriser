@@ -79,7 +79,7 @@ def get_template_singleman() -> Template:
             text_line=TextLine.VERTICAL.set_line_width(DEFAULT_LINE_WIDTH)
         ),
         event_description=DrawableText(
-            size=(700, 500),
+            size=(750, 500),
             position=(700, 440),
             font_path=DEFAULT_FONT,
             font_size=DEFAULT_FONT_SIZE,

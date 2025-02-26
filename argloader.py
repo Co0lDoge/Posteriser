@@ -1,13 +1,13 @@
 def load_args():
-    name_1 = "Борис Борисов"
-    name_1_info = "Генеральный директор"
-    name_1_photo = "res/Professional-Headshot-Poses-Blog-Post-1.png"
-    name_2 = "Николай Борисов"
-    name_2_info = "Диванный директор"
-    name_2_photo = "res/man.jpg"
-    name_3 = "Игорь Креслов"
-    name_3_info = "Журналист"
-    name_3_photo = "res/third.jpg"
+    name_1 = None
+    name_1_info = None
+    name_1_photo = None
+    name_2 = None
+    name_2_info = None
+    name_2_photo = None
+    name_3 = None
+    name_3_info = None
+    name_3_photo = None
     logo = 'res/logo.webp'
     logo_info = "SOMECOMPANYNAME"
     event_desc = "Дбро пожаловать на мераприятье на которое нихто никокда ни придед. Сдесь вас не покажут ничего и нищего ты не увидити. Возможно ничиво не происойдет. А восмошно и нет."

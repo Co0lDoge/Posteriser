@@ -9,7 +9,7 @@ from template.template_selector import select_template
 # TODO: Color selection
 # TODO: Company name extension
 
-POSTER_DEBUG = True
+POSTER_DEBUG = False
 
 (
     speaker_name,

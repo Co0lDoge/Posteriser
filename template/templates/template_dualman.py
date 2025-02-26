@@ -78,8 +78,8 @@ def get_template_dualman() -> Template:
             text_line=TextLine.VERTICAL.set_line_width(DEFAULT_LINE_WIDTH)
         ),
         event_description=DrawableText(
-            size=(360, 200),
-            position=(290, 310),
+            size=(380, 230),
+            position=(280, 310),
             font_path=DEFAULT_FONT,
             font_size=DEFAULT_FONT_SIZE,
             font_color=DEFAULT_COLOR,

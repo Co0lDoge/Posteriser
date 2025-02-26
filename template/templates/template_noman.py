@@ -33,7 +33,7 @@ def get_template_noman() -> Template:
             text_line=TextLine.VERTICAL.set_line_width(DEFAULT_LINE_WIDTH)
         ),
         event_description=DrawableText(
-            size=(1000, 800),
+            size=(1000, 900),
             position=(220, 500),
             font_path=DEFAULT_FONT,
             font_size=70,
