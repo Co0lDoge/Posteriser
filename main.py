@@ -1,5 +1,5 @@
 from PIL import Image
-from argloader import load_args
+from argloader import load_test_args
 from imagegen import ImageGenerator
 from background_remover import BackgroundRemover
 from text_transform import TextCorrector
@@ -27,7 +27,7 @@ POSTER_DEBUG = False
     event_title,
     event_time,
     event_place
-) = load_args()
+) = load_test_args()
 
 poster_template = select_template(
     speaker_name,
