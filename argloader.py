@@ -1,4 +1,5 @@
 import argparse
+import ast
 
 def load_args():
     parser = argparse.ArgumentParser(description="Load event configuration parameters.")
@@ -22,6 +23,12 @@ def load_args():
     parser.add_argument("--event_title", type=str, required=True, help="Event title (e.g., 'Конференция по программированию')")
     parser.add_argument("--event_time", type=str, required=True, help="Event time (e.g., '25.02.25 в 21.00')")
     parser.add_argument("--event_place", type=str, required=True, help="Event place (e.g., 'г.Уфа, ул. Ибрагимова 30')")
+    parser.add_argument(
+        "--color_scheme", 
+        type=lambda s: ast.literal_eval(s), 
+        required=True, 
+        help="Color scheme as a tuple, e.g., '(0, 0, 255)'"
+    )
 
     args = parser.parse_args()
 
@@ -40,7 +47,8 @@ def load_args():
         args.event_desc,
         args.event_title,
         args.event_time,
-        args.event_place
+        args.event_place,
+        args.color_scheme,
     )
 
 def load_test_args():
@@ -59,6 +67,7 @@ def load_test_args():
     event_title = "Конференция по программированию"
     event_time = "25.02.25 в 21.00"
     event_place = "г.Уфа, ул. Ибрагимова 30"
+    color_scheme = (0, 0, 255)
     return (
         name_1,
         name_1_info,
@@ -74,7 +83,8 @@ def load_test_args():
         event_desc,
         event_title,
         event_time,
-        event_place
+        event_place,
+        color_scheme,
     )
 
 

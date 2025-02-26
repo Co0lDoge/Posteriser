@@ -1,5 +1,5 @@
 from PIL import Image
-from argloader import load_test_args
+from argloader import load_test_args, load_args
 from imagegen import ImageGenerator
 from background_remover import BackgroundRemover
 from text_transform import TextCorrector
@@ -8,6 +8,7 @@ from template.template_selector import select_template
 
 # TODO: Color selection
 # TODO: Company name extension
+# TODO: Color scheme
 
 POSTER_DEBUG = False
 
@@ -26,8 +27,9 @@ POSTER_DEBUG = False
     event_desc,
     event_title,
     event_time,
-    event_place
-) = load_test_args()
+    event_place,
+    color_scheme,
+) = load_args()
 
 poster_template = select_template(
     speaker_name,
@@ -43,11 +45,14 @@ poster_template = select_template(
 
 background = ImageGenerator.generate_image_gradient(
     width=poster_template.background_size, 
-    height=poster_template.background_size
+    height=poster_template.background_size,
+    start_color=color_scheme,
 )
 overlay = ImageGenerator.generate_transparent_gradient(
     width=poster_template.background_size, 
-    height=poster_template.background_size
+    height=poster_template.background_size,
+    start_color=color_scheme,
+    end_color=(color_scheme[0]/2.55, color_scheme[1]/2.55, color_scheme[2]/2.55),
 )
 if speaker_photo:
     speaker_photo = Image.open(speaker_photo)
