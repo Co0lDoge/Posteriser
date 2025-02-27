@@ -11,7 +11,7 @@ from template.template_selector import select_template
 # TODO: Color scheme
 # TODO: Config that selects corrector
 
-POSTER_DEBUG = True
+POSTER_DEBUG = False
 
 (
     speaker_name,
@@ -42,6 +42,8 @@ poster_template = select_template(
     presenter_name,
     presenter_info,
     presenter_photo,
+    logo_info,
+    event_place,
 )
 
 background = ImageGenerator.generate_image_gradient(
