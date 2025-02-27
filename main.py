@@ -11,7 +11,7 @@ from template.template_selector import select_template
 # TODO: Color scheme
 # TODO: Config that selects corrector
 
-POSTER_DEBUG = False
+POSTER_DEBUG = True
 
 (
     speaker_name,

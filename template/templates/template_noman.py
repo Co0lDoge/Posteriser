@@ -16,7 +16,7 @@ def get_template_noman() -> Template:
             position=(40, 80),
         ),
         logo_info=DrawableText(
-            size=(1000, 120),
+            size=(800, 120),
             position=(130, 70),
             font_path=DEFAULT_FONT,
             font_size=70,
