@@ -8,7 +8,7 @@ app = FastAPI()
 model_path = "./model/sage-fredt5-large"
 model = pipeline("text2text-generation", model=model_path)
 
-@app.get("/correct/{text}")
+@app.get("/correct")
 async def correct(text: str):
     try:
         # Process the input text with the model
