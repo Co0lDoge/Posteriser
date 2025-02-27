@@ -9,6 +9,7 @@ from template.template_selector import select_template
 # TODO: Color selection
 # TODO: Company name extension
 # TODO: Color scheme
+# TODO: Config that selects corrector
 
 POSTER_DEBUG = False
 
@@ -29,7 +30,7 @@ POSTER_DEBUG = False
     event_time,
     event_place,
     color_scheme,
-) = load_args()
+) = load_test_args()
 
 poster_template = select_template(
     speaker_name,
@@ -67,7 +68,7 @@ if logo:
     logo = Image.open(logo).convert("RGBA")
     backgroundless_logo = BackgroundRemover.remove_background(logo)
 
-text_corrector = TextCorrector.get_default_corrector()
+text_corrector = TextCorrector.get_remote_corrector(url="http://localhost:8000")
 corrected_text = text_corrector.fix_spelling(event_desc)
 
 poster_builder = PosterBuilder(POSTER_DEBUG)
