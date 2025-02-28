@@ -3,6 +3,15 @@ import requests
 from PIL import Image
 import io
 
+def crop_image(image: Image.Image) -> Image.Image:
+    # Get the bounding box of non-transparent pixels
+    bbox = image.getbbox()
+
+    # If bbox is found, crop the image
+    if bbox:
+        image = image.crop(bbox)
+    return image
+
 class LocalPipeline():
     def __init__(self):
         pass
@@ -10,13 +19,6 @@ class LocalPipeline():
     def __call__(self, img):
         # Remove background
         res_img = remove(img)
-
-        # Get the bounding box of non-transparent pixels
-        bbox = res_img.getbbox()
-
-        # If bbox is found, crop the image
-        if bbox:
-            res_img = res_img.crop(bbox)
 
         return res_img
     
@@ -55,6 +57,8 @@ class BackgroundRemover:
         return BackgroundRemover(pipeline=RemotePipeline(url))
     
     def remove_background(self, image) -> str:
-        return self.pipeline(image)
+        result_image = self.pipeline(image)
+        cropped_image = crop_image(result_image)
+        return cropped_image
     
     

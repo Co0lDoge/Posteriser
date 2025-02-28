@@ -6,11 +6,12 @@ from text_transform import TextCorrector
 from poster.poster_builder import PosterBuilder
 from template.template_selector import select_template
 
-# TODO: Color selection
-# TODO: Company name extension
-# TODO: Color scheme
+# Done: Color selection
+# Done: Company name extension
+# Done: Color scheme
 # TODO: Config that selects corrector
 # TODO: Cards for names (white radial corners with black text)
+# TODO: Move rembg to server for clearing logos
 
 POSTER_DEBUG = False
 
