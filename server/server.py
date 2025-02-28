@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from transformers import pipeline
+from image_cleaner import BackgroundRemover
 import uvicorn
 
 app = FastAPI()
@@ -9,6 +10,15 @@ model_path = "./model/sage-fredt5-large"
 model = pipeline("text2text-generation", model=model_path)
 
 @app.get("/correct")
+async def correct(text: str):
+    try:
+        # Process the input text with the model
+        result = model(text)
+        return {"result": result}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
+@app.get("/rembg")
 async def correct(text: str):
     try:
         # Process the input text with the model

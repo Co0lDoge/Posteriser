@@ -1,7 +1,7 @@
 from PIL import Image
 from argloader import load_test_args, load_args
 from imagegen import ImageGenerator
-from background_remover import BackgroundRemover
+from server.image_cleaner import BackgroundRemover
 from text_transform import TextCorrector
 from poster.poster_builder import PosterBuilder
 from template.template_selector import select_template
@@ -58,18 +58,20 @@ overlay = ImageGenerator.generate_transparent_gradient(
     start_color=color_scheme,
     end_color=(color_scheme[0]/2.55, color_scheme[1]/2.55, color_scheme[2]/2.55),
 )
+
+background_remover = BackgroundRemover()
 if speaker_photo:
     speaker_photo = Image.open(speaker_photo)
-    speaker_photo = BackgroundRemover.remove_background(speaker_photo)
+    speaker_photo = background_remover.remove_background(speaker_photo).convert('RGBA')
 if moderator_photo:
     moderator_photo = Image.open(moderator_photo)
-    moderator_photo = BackgroundRemover.remove_background(moderator_photo)
+    moderator_photo = background_remover.remove_background(moderator_photo).convert('RGBA')
 if presenter_photo:
     presenter_photo = Image.open(presenter_photo)
-    presenter_photo = BackgroundRemover.remove_background(presenter_photo)
+    presenter_photo = background_remover.remove_background(presenter_photo).convert('RGBA')
 if logo:
-    logo = Image.open(logo).convert("RGBA")
-    backgroundless_logo = BackgroundRemover.remove_background(logo)
+    logo = Image.open(logo)
+    backgroundless_logo = background_remover.remove_background(logo).convert('RGBA')
 
 text_corrector = TextCorrector.get_remote_corrector(url="http://localhost:8000")
 corrected_text = text_corrector.fix_spelling(event_desc)
