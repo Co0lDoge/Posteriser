@@ -222,22 +222,20 @@ def draw_rounded_rectangle(draw, width, height, radius, color):
 
     from PIL import Image, ImageDraw
 
-def draw_behind_image(combined_image: Image.Image, background_color=(0, 0, 0, 0)) -> Image.Image:
+def draw_behind_image(combined_image: Image.Image, background_color=(0, 0, 0, 255)) -> Image.Image:
     combined_width, combined_height = combined_image.size
     padding = 10  # Adjust padding if needed
 
     # Check if the background color has transparency (RGBA)
-    if len(background_color) == 4:  
-        mode = "RGBA"  
-    else:
-        mode = "RGB"
+    has_transparency = len(background_color) == 4
+    mode = "RGBA" if has_transparency else "RGB"
 
-    # Create a new image with background
-    background = Image.new(mode, (combined_width + 2 * padding, combined_height + 2 * padding), background_color)
+    # Create a new transparent image with padding
+    background = Image.new(mode, (combined_width + 2 * padding, combined_height + 2 * padding), (0, 0, 0, 0))
 
     # Draw rounded rectangle on the background
     background_draw = ImageDraw.Draw(background)
-    draw_rounded_rectangle(background_draw, background.width, background.height, 20, "black")
+    draw_rounded_rectangle(background_draw, background.width, background.height, 20, background_color)
 
     # Paste the combined image on top of the background
     background.paste(combined_image, (padding, padding), combined_image if "A" in combined_image.mode else None)
