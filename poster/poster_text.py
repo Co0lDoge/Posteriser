@@ -1,4 +1,4 @@
-from drawable.drawable_object import DrawableText, TextAlignment, TextLine
+from drawable.drawable_object import DrawableText, TextAlignment, TextLine, TextBackground
 from PIL import Image, ImageDraw, ImageFont
 from typing import List
 
@@ -30,6 +30,9 @@ def wrap_text(text: str, style: DrawableText) -> Image.Image:
     # Draw decorative lines if specified
     if style.text_line:
         draw_decorative_lines(draw, style, starting_y, total_text_height, width)
+
+    if style.text_background == TextBackground.ROUNDED:
+        draw_rounded_rectangle(draw, width, height, 20, "black")
 
     # Draw the text lines with alignment
     draw_text_lines(draw, lines, font, starting_y, style.text_alignment, font_color, width, font_size)
@@ -77,13 +80,16 @@ def wrap_text_group(items: List[tuple[str, DrawableText]]) -> Image.Image:
 
     # Concatenate all the images vertically (top-aligned)
     combined_image = concat_images_vertically(image_list)
+    combined_draw = ImageDraw.Draw(combined_image)
+    combined_width, combined_height = combined_image.size
+
+    first_style = items[0][1]
+    if style.text_background == TextBackground.ROUNDED:
+        combined_image = draw_behind_image(combined_image)
 
     # Draw a decorative line along the left edge of the combined image,
     # using the style from the first item (if it specifies a left decorative line).
-    first_style = items[0][1]
     if first_style.text_line and first_style.text_line == TextLine.LEFT:
-        combined_draw = ImageDraw.Draw(combined_image)
-        combined_width, combined_height = combined_image.size
         # starting_y is 0 and total_text_height is the full height of the combined image.
         draw_decorative_lines(combined_draw, first_style, 0, combined_height, combined_width)
 
@@ -199,3 +205,41 @@ def draw_text_lines(
 
         draw.text((x_position, y_position), line, font=font, fill=text_color)
         y_position += font_size
+
+def draw_rounded_rectangle(draw, width, height, radius, color):    
+    # Define corner points
+    left, top, right, bottom = 0, 0, width, height
+    
+    # Draw rounded rectangle using pieslice and rectangles
+    draw.pieslice([left, top, left + 2 * radius, top + 2 * radius], 180, 270, fill=color)
+    draw.pieslice([right - 2 * radius, top, right, top + 2 * radius], 270, 360, fill=color)
+    draw.pieslice([left, bottom - 2 * radius, left + 2 * radius, bottom], 90, 180, fill=color)
+    draw.pieslice([right - 2 * radius, bottom - 2 * radius, right, bottom], 0, 90, fill=color)
+    
+    # Draw rectangles to connect the corners
+    draw.rectangle([left + radius, top, right - radius, bottom], fill=color)
+    draw.rectangle([left, top + radius, right, bottom - radius], fill=color)
+
+    from PIL import Image, ImageDraw
+
+def draw_behind_image(combined_image: Image.Image, background_color=(0, 0, 0, 0)) -> Image.Image:
+    combined_width, combined_height = combined_image.size
+    padding = 10  # Adjust padding if needed
+
+    # Check if the background color has transparency (RGBA)
+    if len(background_color) == 4:  
+        mode = "RGBA"  
+    else:
+        mode = "RGB"
+
+    # Create a new image with background
+    background = Image.new(mode, (combined_width + 2 * padding, combined_height + 2 * padding), background_color)
+
+    # Draw rounded rectangle on the background
+    background_draw = ImageDraw.Draw(background)
+    draw_rounded_rectangle(background_draw, background.width, background.height, 20, "black")
+
+    # Paste the combined image on top of the background
+    background.paste(combined_image, (padding, padding), combined_image if "A" in combined_image.mode else None)
+
+    return background

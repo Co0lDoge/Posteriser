@@ -1,11 +1,12 @@
 from template.poster_template import Template
-from drawable.drawable_object import DrawableImage, DrawableText, TextAlignment, TextLine
+from drawable.drawable_object import DrawableImage, DrawableText, TextAlignment, TextLine, TextBackground
 
 DEFAULT_FONT = "arial.ttf"
 DEFAULT_FONT_BOLD = "arialbd.ttf"
 DEFAULT_FONT_SIZE = 50
 DEFAULT_COLOR = (255, 255, 255)
 DEFAULT_LINE_WIDTH = 4
+DEFAULT_TEXT_BACKGROUND_COLOR = (0, 0, 255)
 
 def get_template_threeman() -> Template:
     background_size = 1500
@@ -23,7 +24,8 @@ def get_template_threeman() -> Template:
             font_size=45,
             font_color=DEFAULT_COLOR,
             text_alignment=TextAlignment.LEFT,
-            text_line=TextLine.LEFT.set_line_width(DEFAULT_LINE_WIDTH)
+            text_line=TextLine.LEFT.set_line_width(DEFAULT_LINE_WIDTH),
+            text_background=TextBackground.ROUNDED.set_color(DEFAULT_TEXT_BACKGROUND_COLOR)
         ),
         speaker_info=DrawableText(
             size=(250, 400),
@@ -32,7 +34,8 @@ def get_template_threeman() -> Template:
             font_size=30,
             font_color=DEFAULT_COLOR,
             text_alignment=TextAlignment.LEFT,
-            text_line=TextLine.LEFT.set_line_width(DEFAULT_LINE_WIDTH)
+            text_line=TextLine.LEFT.set_line_width(DEFAULT_LINE_WIDTH),
+            text_background=TextBackground.ROUNDED.set_color(DEFAULT_TEXT_BACKGROUND_COLOR)
         ),
         moderator_photo=DrawableImage(
             size=(None, 800),
@@ -46,7 +49,8 @@ def get_template_threeman() -> Template:
             font_size=45,
             font_color=DEFAULT_COLOR,
             text_alignment=TextAlignment.LEFT,
-            text_line=TextLine.LEFT.set_line_width(DEFAULT_LINE_WIDTH)
+            text_line=TextLine.LEFT.set_line_width(DEFAULT_LINE_WIDTH),
+            text_background=TextBackground.ROUNDED.set_color(DEFAULT_TEXT_BACKGROUND_COLOR)
         ),
         moderator_info=DrawableText(
             size=(250, 400),
@@ -55,7 +59,8 @@ def get_template_threeman() -> Template:
             font_size=30,
             font_color=DEFAULT_COLOR,
             text_alignment=TextAlignment.LEFT,
-            text_line=TextLine.LEFT.set_line_width(DEFAULT_LINE_WIDTH)
+            text_line=TextLine.LEFT.set_line_width(DEFAULT_LINE_WIDTH),
+            text_background=TextBackground.ROUNDED.set_color(DEFAULT_TEXT_BACKGROUND_COLOR)
         ),
         presenter_photo=DrawableImage(
             size=(None, 800),
@@ -69,7 +74,8 @@ def get_template_threeman() -> Template:
             font_size=45,
             font_color=DEFAULT_COLOR,
             text_alignment=TextAlignment.LEFT,
-            text_line=TextLine.LEFT.set_line_width(DEFAULT_LINE_WIDTH)
+            text_line=TextLine.LEFT.set_line_width(DEFAULT_LINE_WIDTH),
+            text_background=TextBackground.ROUNDED.set_color(DEFAULT_TEXT_BACKGROUND_COLOR)
         ),
         presenter_info=DrawableText(
             size=(250, 400),
@@ -78,7 +84,8 @@ def get_template_threeman() -> Template:
             font_size=30,
             font_color=DEFAULT_COLOR,
             text_alignment=TextAlignment.LEFT,
-            text_line=TextLine.LEFT.set_line_width(DEFAULT_LINE_WIDTH)
+            text_line=TextLine.LEFT.set_line_width(DEFAULT_LINE_WIDTH),
+            text_background=TextBackground.ROUNDED.set_color(DEFAULT_TEXT_BACKGROUND_COLOR)
         ),
         logo=DrawableImage(
             size=(90, 90),

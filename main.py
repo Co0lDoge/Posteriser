@@ -10,6 +10,7 @@ from template.template_selector import select_template
 # TODO: Company name extension
 # TODO: Color scheme
 # TODO: Config that selects corrector
+# TODO: Cards for names (white radial corners with black text)
 
 POSTER_DEBUG = False
 
