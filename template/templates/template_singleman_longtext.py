@@ -18,9 +18,9 @@ def get_template_singleman() -> Template:
         ),
         speaker_name=DrawableText(
             size=(550, 200),
-            position=(730, 940),
+            position=(730-150, 940),
             font_path=DEFAULT_FONT_BOLD,
-            font_size=80,
+            font_size=60,
             font_color=DEFAULT_COLOR,
             text_alignment=TextAlignment.LEFT,
             text_line=TextLine.LEFT.set_line_width(DEFAULT_LINE_WIDTH)
@@ -29,7 +29,7 @@ def get_template_singleman() -> Template:
             size=(450, 200),
             position=(735, 1100),
             font_path=DEFAULT_FONT,
-            font_size=60,
+            font_size=50,
             font_color=DEFAULT_COLOR,
             text_alignment=TextAlignment.LEFT,
             text_line=TextLine.LEFT.set_line_width(DEFAULT_LINE_WIDTH)
@@ -41,9 +41,9 @@ def get_template_singleman() -> Template:
         ),
         moderator_name=DrawableText(
             size=(550, 200),
-            position=(730, 940),
+            position=(730-150, 940),
             font_path=DEFAULT_FONT_BOLD,
-            font_size=80,
+            font_size=60,
             font_color=DEFAULT_COLOR,
             text_alignment=TextAlignment.LEFT,
             text_line=TextLine.LEFT.set_line_width(DEFAULT_LINE_WIDTH)
@@ -52,7 +52,7 @@ def get_template_singleman() -> Template:
             size=(450, 200),
             position=(735, 1100),
             font_path=DEFAULT_FONT,
-            font_size=60,
+            font_size=50,
             font_color=DEFAULT_COLOR,
             text_alignment=TextAlignment.LEFT,
             text_line=TextLine.LEFT.set_line_width(DEFAULT_LINE_WIDTH)
@@ -62,10 +62,10 @@ def get_template_singleman() -> Template:
             position=(40, 80),
         ),
         logo_info=DrawableText(
-            size=(800, 120),
-            position=(130, 70),
+            size=(1200, 120),
+            position=(130, 80),
             font_path=DEFAULT_FONT,
-            font_size=70,
+            font_size=50,
             font_color=DEFAULT_COLOR,
             text_alignment=TextAlignment.LEFT
         ),
@@ -88,15 +88,15 @@ def get_template_singleman() -> Template:
         ),
         event_time=DrawableText(
             size=(600, 200),
-            position=(960, 30),
+            position=(800, 1200),
             font_path=DEFAULT_FONT_BOLD,
             font_size=65,
             font_color=DEFAULT_COLOR,
             text_alignment=TextAlignment.LEFT
         ),
         event_place=DrawableText(
-            size=(500, 150),
-            position=(960, 70),
+            size=(650, 250),
+            position=(800, 70),
             font_path=DEFAULT_FONT,
             font_size=DEFAULT_FONT_SIZE,
             font_color=DEFAULT_COLOR,

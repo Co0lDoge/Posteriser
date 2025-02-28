@@ -7,52 +7,52 @@ DEFAULT_FONT_SIZE = 50
 DEFAULT_COLOR = (255, 255, 255)
 DEFAULT_LINE_WIDTH = 4
 
-def get_template_singleman() -> Template:
+def get_template_dualman() -> Template:
     background_size = 1500
     return Template(
         background_size=background_size,
         speaker_photo=DrawableImage(
             size=(None, 900),
-            position=(40, background_size-900),
+            position=(-50, background_size-900),
             overlay=True
         ),
         speaker_name=DrawableText(
-            size=(550, 200),
+            size=(250, 400),
             position=(730, 940),
             font_path=DEFAULT_FONT_BOLD,
-            font_size=80,
+            font_size=45,
             font_color=DEFAULT_COLOR,
             text_alignment=TextAlignment.LEFT,
             text_line=TextLine.LEFT.set_line_width(DEFAULT_LINE_WIDTH)
         ),
         speaker_info=DrawableText(
-            size=(450, 200),
-            position=(735, 1100),
+            size=(250, 400),
+            position=(330, 1200),
             font_path=DEFAULT_FONT,
-            font_size=60,
+            font_size=30,
             font_color=DEFAULT_COLOR,
             text_alignment=TextAlignment.LEFT,
             text_line=TextLine.LEFT.set_line_width(DEFAULT_LINE_WIDTH)
         ),
         moderator_photo=DrawableImage(
             size=(None, 900),
-            position=(40, background_size-900),
-            overlay=True
+            position=(950, background_size-900),
+            overlay=False
         ),
         moderator_name=DrawableText(
-            size=(550, 200),
-            position=(730, 940),
+            size=(250, 400),
+            position=(50, 600),
             font_path=DEFAULT_FONT_BOLD,
-            font_size=80,
+            font_size=45,
             font_color=DEFAULT_COLOR,
             text_alignment=TextAlignment.LEFT,
             text_line=TextLine.LEFT.set_line_width(DEFAULT_LINE_WIDTH)
         ),
         moderator_info=DrawableText(
-            size=(450, 200),
-            position=(735, 1100),
+            size=(250, 400),
+            position=(1200, 1200),
             font_path=DEFAULT_FONT,
-            font_size=60,
+            font_size=30,
             font_color=DEFAULT_COLOR,
             text_alignment=TextAlignment.LEFT,
             text_line=TextLine.LEFT.set_line_width(DEFAULT_LINE_WIDTH)
@@ -62,10 +62,10 @@ def get_template_singleman() -> Template:
             position=(40, 80),
         ),
         logo_info=DrawableText(
-            size=(800, 120),
-            position=(130, 70),
+            size=(1200, 120),
+            position=(130, 80),
             font_path=DEFAULT_FONT,
-            font_size=70,
+            font_size=50,
             font_color=DEFAULT_COLOR,
             text_alignment=TextAlignment.LEFT
         ),
@@ -79,32 +79,34 @@ def get_template_singleman() -> Template:
             text_line=TextLine.VERTICAL.set_line_width(DEFAULT_LINE_WIDTH)
         ),
         event_description=DrawableText(
-            size=(750, 500),
-            position=(700, 440),
+            size=(1400, 190),
+            position=(50, 400),
             font_path=DEFAULT_FONT,
-            font_size=DEFAULT_FONT_SIZE,
+            font_size=DEFAULT_FONT_SIZE-10,
             font_color=DEFAULT_COLOR,
             text_alignment=TextAlignment.CENTER
         ),
         event_time=DrawableText(
-            size=(600, 200),
-            position=(960, 30),
+            size=(500, 200),
+            position=(500, 580),
             font_path=DEFAULT_FONT_BOLD,
             font_size=65,
             font_color=DEFAULT_COLOR,
-            text_alignment=TextAlignment.LEFT
+            text_alignment=TextAlignment.CENTER,
+            text_line=TextLine.VERTICAL.set_line_width(DEFAULT_LINE_WIDTH)
         ),
         event_place=DrawableText(
-            size=(500, 150),
-            position=(960, 70),
+            size=(500, 400),
+            position=(150, 70),
             font_path=DEFAULT_FONT,
             font_size=DEFAULT_FONT_SIZE,
             font_color=DEFAULT_COLOR,
-            text_alignment=TextAlignment.LEFT
+            text_alignment=TextAlignment.CENTER,
+            text_line=TextLine.VERTICAL.set_line_width(DEFAULT_LINE_WIDTH)
         ),
         groups = {
-            "speaker": ["speaker_name", "speaker_info"],
-            "moderator": ["moderator_name", "moderator_info"],
+            "speaker": ["speaker_info", "speaker_name"],
+            "moderator": ["moderator_info", "moderator_name"],
             "time_place": ["event_time", "event_place"],
         }
     )

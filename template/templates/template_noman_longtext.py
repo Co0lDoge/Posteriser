@@ -16,10 +16,10 @@ def get_template_noman() -> Template:
             position=(40, 80),
         ),
         logo_info=DrawableText(
-            size=(800, 120),
-            position=(130, 70),
+            size=(1200, 120),
+            position=(130, 80),
             font_path=DEFAULT_FONT,
-            font_size=70,
+            font_size=50,
             font_color=DEFAULT_COLOR,
             text_alignment=TextAlignment.LEFT
         ),
@@ -33,7 +33,7 @@ def get_template_noman() -> Template:
             text_line=TextLine.VERTICAL.set_line_width(DEFAULT_LINE_WIDTH)
         ),
         event_description=DrawableText(
-            size=(1000, 900),
+            size=(1000, 700),
             position=(220, 500),
             font_path=DEFAULT_FONT,
             font_size=70,
@@ -41,20 +41,22 @@ def get_template_noman() -> Template:
             text_alignment=TextAlignment.CENTER
         ),
         event_time=DrawableText(
-            size=(600, 200),
-            position=(960, 30),
+            size=(1200, 200),
+            position=(150, 1300),
             font_path=DEFAULT_FONT_BOLD,
             font_size=65,
             font_color=DEFAULT_COLOR,
-            text_alignment=TextAlignment.LEFT
+            text_alignment=TextAlignment.CENTER,
+            text_line=TextLine.VERTICAL.set_line_width(DEFAULT_LINE_WIDTH)
         ),
         event_place=DrawableText(
-            size=(500, 150),
-            position=(960, 70),
+            size=(1200, 150),
+            position=(150, 70),
             font_path=DEFAULT_FONT,
             font_size=DEFAULT_FONT_SIZE,
             font_color=DEFAULT_COLOR,
-            text_alignment=TextAlignment.LEFT
+            text_alignment=TextAlignment.CENTER,
+            text_line=TextLine.VERTICAL.set_line_width(DEFAULT_LINE_WIDTH)
         ),
         groups = {
             "time_place": ["event_time", "event_place"],

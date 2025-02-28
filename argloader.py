@@ -62,7 +62,7 @@ def load_test_args():
     name_3_info = "Журналист"
     name_3_photo = "res/third.jpg"
     logo = 'res/logo.webp'
-    logo_info = "SOMECOMPANYNAME"
+    logo_info = "OOO SOMECOMPANYNAME MEZHRAIONKA Celis"
     event_desc = "Дбро пожаловать на мераприятье на которое нихто никокда ни придед. Сдесь вас не покажут ничего и нищего ты не увидити. Возможно ничиво не происойдет. А восмошно и нет."
     event_title = "Конференция по программированию"
     event_time = "25.02.25 в 21.00"

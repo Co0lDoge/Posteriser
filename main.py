@@ -6,9 +6,12 @@ from text_transform import TextCorrector
 from poster.poster_builder import PosterBuilder
 from template.template_selector import select_template
 
-# TODO: Color selection
-# TODO: Company name extension
-# TODO: Color scheme
+# Done: Color selection
+# Done: Company name extension
+# Done: Color scheme
+# TODO: Config that selects corrector
+# TODO: Cards for names (white radial corners with black text)
+# TODO: Move rembg to server for clearing logos
 
 POSTER_DEBUG = False
 
@@ -29,7 +32,7 @@ POSTER_DEBUG = False
     event_time,
     event_place,
     color_scheme,
-) = load_args()
+) = load_test_args()
 
 poster_template = select_template(
     speaker_name,
@@ -41,6 +44,8 @@ poster_template = select_template(
     presenter_name,
     presenter_info,
     presenter_photo,
+    logo_info,
+    event_place,
 )
 
 background = ImageGenerator.generate_image_gradient(
@@ -54,20 +59,23 @@ overlay = ImageGenerator.generate_transparent_gradient(
     start_color=color_scheme,
     end_color=(color_scheme[0]/2.55, color_scheme[1]/2.55, color_scheme[2]/2.55),
 )
+
+background_remover = BackgroundRemover.get_remote_pipeline(url="http://localhost:8000")
+local_background_remover = BackgroundRemover.get_local_pipeline()
 if speaker_photo:
     speaker_photo = Image.open(speaker_photo)
-    speaker_photo = BackgroundRemover.remove_background(speaker_photo)
+    speaker_photo = background_remover.remove_background(speaker_photo).convert('RGBA')
 if moderator_photo:
     moderator_photo = Image.open(moderator_photo)
-    moderator_photo = BackgroundRemover.remove_background(moderator_photo)
+    moderator_photo = background_remover.remove_background(moderator_photo).convert('RGBA')
 if presenter_photo:
     presenter_photo = Image.open(presenter_photo)
-    presenter_photo = BackgroundRemover.remove_background(presenter_photo)
+    presenter_photo = background_remover.remove_background(presenter_photo).convert('RGBA')
 if logo:
-    logo = Image.open(logo).convert("RGBA")
-    backgroundless_logo = BackgroundRemover.remove_background(logo)
+    logo = Image.open(logo)
+    backgroundless_logo = local_background_remover.remove_background(logo).convert('RGBA')
 
-text_corrector = TextCorrector.get_default_corrector()
+text_corrector = TextCorrector.get_remote_corrector(url="http://localhost:8000")
 corrected_text = text_corrector.fix_spelling(event_desc)
 
 poster_builder = PosterBuilder(POSTER_DEBUG)
