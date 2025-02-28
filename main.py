@@ -1,7 +1,7 @@
 from PIL import Image
 from argloader import load_test_args, load_args
 from imagegen import ImageGenerator
-from server.image_cleaner import BackgroundRemover
+from background_remover import BackgroundRemover
 from text_transform import TextCorrector
 from poster.poster_builder import PosterBuilder
 from template.template_selector import select_template
@@ -59,7 +59,8 @@ overlay = ImageGenerator.generate_transparent_gradient(
     end_color=(color_scheme[0]/2.55, color_scheme[1]/2.55, color_scheme[2]/2.55),
 )
 
-background_remover = BackgroundRemover()
+background_remover = BackgroundRemover.get_remote_pipeline(url="http://localhost:8000")
+local_background_remover = BackgroundRemover.get_local_pipeline()
 if speaker_photo:
     speaker_photo = Image.open(speaker_photo)
     speaker_photo = background_remover.remove_background(speaker_photo).convert('RGBA')
@@ -71,7 +72,7 @@ if presenter_photo:
     presenter_photo = background_remover.remove_background(presenter_photo).convert('RGBA')
 if logo:
     logo = Image.open(logo)
-    backgroundless_logo = background_remover.remove_background(logo).convert('RGBA')
+    backgroundless_logo = local_background_remover.remove_background(logo).convert('RGBA')
 
 text_corrector = TextCorrector.get_remote_corrector(url="http://localhost:8000")
 corrected_text = text_corrector.fix_spelling(event_desc)
