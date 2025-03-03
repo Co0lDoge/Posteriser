@@ -14,7 +14,7 @@ def crop_image(image: Image.Image) -> Image.Image:
 
 class LocalPipeline():
     def __init__(self):
-        model_name = "unet"
+        model_name = "u2net"
         self.rembg_session = new_session(model_name)
 
     def __call__(self, img):
@@ -22,6 +22,14 @@ class LocalPipeline():
         res_img = remove(img, session=self.rembg_session)
 
         return res_img
+    
+class RemoverPipeline():
+    def __init__(self):
+        from transparent_background import Remover
+        self.remover = Remover()
+
+    def __call__(self, img):
+        return self.remover.process(img, threshold=0.6)
     
 class RemotePipeline():
     def __init__(self, url):
@@ -56,6 +64,9 @@ class BackgroundRemover:
     
     def get_remote_pipeline(url):
         return BackgroundRemover(pipeline=RemotePipeline(url))
+    
+    def get_remover_pipeline():
+        return BackgroundRemover(pipeline=RemoverPipeline())
     
     def remove_background(self, image) -> str:
         result_image = self.pipeline(image)
