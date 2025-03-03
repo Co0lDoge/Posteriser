@@ -26,10 +26,10 @@ def get_template_dualman() -> Template:
             text_line=TextLine.LEFT.set_line_width(DEFAULT_LINE_WIDTH)
         ),
         speaker_info=DrawableText(
-            size=(150, 100),
+            size=(250, 100),
             position=(335, 620),
             font_path=DEFAULT_FONT,
-            font_size=20,
+            font_size=25,
             font_color=DEFAULT_COLOR,
             text_alignment=TextAlignment.LEFT,
             text_line=TextLine.LEFT.set_line_width(DEFAULT_LINE_WIDTH)
@@ -48,10 +48,10 @@ def get_template_dualman() -> Template:
             text_line=TextLine.LEFT.set_line_width(DEFAULT_LINE_WIDTH)
         ),
         moderator_info=DrawableText(
-            size=(150, 100),
+            size=(250, 100),
             position=(435, 770),
             font_path=DEFAULT_FONT,
-            font_size=20,
+            font_size=25,
             font_color=DEFAULT_COLOR,
             text_alignment=TextAlignment.LEFT,
             text_line=TextLine.LEFT.set_line_width(DEFAULT_LINE_WIDTH)

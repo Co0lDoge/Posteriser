@@ -12,8 +12,8 @@ def get_template_singleman() -> Template:
     return Template(
         background_size=background_size,
         speaker_photo=DrawableImage(
-            size=(None, 900),
-            position=(40, background_size-900),
+            size=(None, 1000),
+            position=(20, background_size-1000),
             overlay=True
         ),
         speaker_name=DrawableText(
@@ -35,8 +35,8 @@ def get_template_singleman() -> Template:
             text_line=TextLine.LEFT.set_line_width(DEFAULT_LINE_WIDTH)
         ),
         moderator_photo=DrawableImage(
-            size=(None, 900),
-            position=(40, background_size-900),
+            size=(None, 1000),
+            position=(20, background_size-1000),
             overlay=True
         ),
         moderator_name=DrawableText(
