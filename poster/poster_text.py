@@ -220,11 +220,9 @@ def draw_rounded_rectangle(draw, width, height, radius, color):
     draw.rectangle([left + radius, top, right - radius, bottom], fill=color)
     draw.rectangle([left, top + radius, right, bottom - radius], fill=color)
 
-    from PIL import Image, ImageDraw
-
-def draw_behind_image(combined_image: Image.Image, background_color=(0, 0, 0, 255)) -> Image.Image:
+def draw_behind_image(combined_image: Image.Image, background_color=(0, 0, 0, 150)) -> Image.Image:
     combined_width, combined_height = combined_image.size
-    padding = 10  # Adjust padding if needed
+    padding = 16  # Adjust padding if needed
 
     # Check if the background color has transparency (RGBA)
     has_transparency = len(background_color) == 4

@@ -1,5 +1,5 @@
 from PIL import Image
-from argloader import load_test_args, load_args
+from argloader import load_args
 from imagegen import ImageGenerator
 from background_remover import BackgroundRemover
 from text_transform import TextCorrector
@@ -32,7 +32,8 @@ POSTER_DEBUG = False
     event_time,
     event_place,
     color_scheme,
-) = load_test_args()
+    output_path
+) = load_args()
 
 poster_template = select_template(
     speaker_name,
@@ -60,7 +61,7 @@ overlay = ImageGenerator.generate_transparent_gradient(
     end_color=(color_scheme[0]/2.55, color_scheme[1]/2.55, color_scheme[2]/2.55),
 )
 
-background_remover = BackgroundRemover.get_remote_pipeline(url="http://localhost:8000")
+background_remover = BackgroundRemover.get_local_pipeline()
 local_background_remover = BackgroundRemover.get_local_pipeline()
 if speaker_photo:
     speaker_photo = Image.open(speaker_photo)
@@ -104,4 +105,4 @@ poster = (
 
 # Show final poster
 poster.show()
-poster.save("output/poster.png")
+poster.save(output_path)
