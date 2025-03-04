@@ -29,7 +29,7 @@ def get_template_threeman() -> Template:
             size=(450, 200),
             position=(30, 600),
             font_path=DEFAULT_FONT,
-            font_size=30,
+            font_size=35,
             font_color=DEFAULT_COLOR,
             text_alignment=TextAlignment.LEFT,
             text_line=TextLine.LEFT.set_line_width(DEFAULT_LINE_WIDTH)
@@ -52,7 +52,7 @@ def get_template_threeman() -> Template:
             size=(450, 200),
             position=(500, 600),
             font_path=DEFAULT_FONT,
-            font_size=30,
+            font_size=35,
             font_color=DEFAULT_COLOR,
             text_alignment=TextAlignment.LEFT,
             text_line=TextLine.LEFT.set_line_width(DEFAULT_LINE_WIDTH)
@@ -75,7 +75,7 @@ def get_template_threeman() -> Template:
             size=(450, 200),
             position=(1000, 600),
             font_path=DEFAULT_FONT,
-            font_size=30,
+            font_size=35,
             font_color=DEFAULT_COLOR,
             text_alignment=TextAlignment.LEFT,
             text_line=TextLine.LEFT.set_line_width(DEFAULT_LINE_WIDTH)

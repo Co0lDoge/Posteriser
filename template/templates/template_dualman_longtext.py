@@ -17,19 +17,19 @@ def get_template_dualman() -> Template:
             overlay=True
         ),
         speaker_name=DrawableText(
-            size=(250, 400),
+            size=(350, 400),
             position=(730, 940),
             font_path=DEFAULT_FONT_BOLD,
-            font_size=45,
+            font_size=60,
             font_color=DEFAULT_COLOR,
             text_alignment=TextAlignment.LEFT,
             text_line=TextLine.LEFT.set_line_width(DEFAULT_LINE_WIDTH)
         ),
         speaker_info=DrawableText(
-            size=(250, 400),
-            position=(330, 1200),
+            size=(350, 400),
+            position=(500, 900),
             font_path=DEFAULT_FONT,
-            font_size=30,
+            font_size=45,
             font_color=DEFAULT_COLOR,
             text_alignment=TextAlignment.LEFT,
             text_line=TextLine.LEFT.set_line_width(DEFAULT_LINE_WIDTH)
@@ -40,19 +40,19 @@ def get_template_dualman() -> Template:
             overlay=False
         ),
         moderator_name=DrawableText(
-            size=(250, 400),
+            size=(350, 400),
             position=(50, 600),
             font_path=DEFAULT_FONT_BOLD,
-            font_size=45,
+            font_size=60,
             font_color=DEFAULT_COLOR,
             text_alignment=TextAlignment.LEFT,
             text_line=TextLine.LEFT.set_line_width(DEFAULT_LINE_WIDTH)
         ),
         moderator_info=DrawableText(
-            size=(250, 400),
-            position=(1200, 1200),
+            size=(350, 400),
+            position=(800, 1150),
             font_path=DEFAULT_FONT,
-            font_size=30,
+            font_size=45,
             font_color=DEFAULT_COLOR,
             text_alignment=TextAlignment.LEFT,
             text_line=TextLine.LEFT.set_line_width(DEFAULT_LINE_WIDTH)
