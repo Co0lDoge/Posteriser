@@ -1,5 +1,3 @@
-
-
 from PIL import Image
 from rembg import remove, new_session
 import os
