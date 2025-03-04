@@ -1,7 +1,8 @@
 from fastapi import FastAPI, HTTPException, UploadFile, File
 from fastapi.responses import StreamingResponse
 from transformers import pipeline
-from image_cleaner import BackgroundRemover
+from rembg_deeplabv3 import BackgroundRemoverDeeplab
+from rembg_default import BackgroundRemover
 from PIL import Image
 import uvicorn
 import io
@@ -9,8 +10,10 @@ import io
 app = FastAPI()
 
 # Load the transformer model once at startup
-model_path = "./model/sage-fredt5-large"
-model = pipeline("text2text-generation", model=model_path)
+TEXT_MODEL_PATH = "./model/sage-fredt5-large"
+U2NET_PATH = "C:/WorkFolder/ML/Posteriser/model/u2net/"
+TORCH_MODEL_PATH = './model/model'
+model = pipeline("text2text-generation", model=TEXT_MODEL_PATH)
 
 @app.get("/correct")
 async def correct(text: str):
@@ -28,7 +31,23 @@ async def remove_background_deeplab(image: UploadFile = File(...)):
     img = Image.open(io.BytesIO(image_data))
 
     # Process the image (e.g., remove background)
-    img_noback = BackgroundRemover().remove_background(img)
+    img_noback = BackgroundRemoverDeeplab(TORCH_MODEL_PATH).remove_background(img)
+
+    # Convert the image to a byte stream
+    img_byte_arr = io.BytesIO()
+    img_noback.save(img_byte_arr, format="PNG")
+    img_byte_arr.seek(0)
+
+    return StreamingResponse(img_byte_arr, media_type="image/png")
+
+@app.post("/rembg")
+async def remove_background(image: UploadFile = File(...)):
+    # Read the uploaded image into a PIL object
+    image_data = await image.read()
+    img = Image.open(io.BytesIO(image_data))
+
+    # Process the image (e.g., remove background)
+    img_noback = BackgroundRemover(U2NET_PATH).remove_background(img)
 
     # Convert the image to a byte stream
     img_byte_arr = io.BytesIO()

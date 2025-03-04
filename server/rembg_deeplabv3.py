@@ -2,11 +2,10 @@ import torch
 from torchvision import models, transforms
 from PIL import Image
 import numpy as np
-import cv2
 
-class BackgroundRemover:
-    def __init__(self):
-        torch.hub.set_dir('./model/model')
+class BackgroundRemoverDeeplab:
+    def __init__(self, model_path: str):
+        torch.hub.set_dir(model_path)
         self.model = models.segmentation.deeplabv3_resnet101(pretrained=True)
         self.model.eval()  # Set the model to evaluation mode
 

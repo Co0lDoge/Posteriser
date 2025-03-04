@@ -47,6 +47,29 @@ class RemotePipeline():
 
         # Send the image as part of the POST request
         files = {"image": ("image.png", img_byte_arr, "image/png")}
+        response = requests.post(f"{self.url}/rembg", files=files)
+
+        if response.status_code != 200:
+            raise Exception(f"Error: {response.status_code}")
+
+        result_image = Image.open(io.BytesIO(response.content))  # Convert the binary data to an image
+        return result_image
+
+    def __call__(self, img: Image.Image):
+        return self.remove_background(img)
+    
+class RemotePipelineDeeplab():
+    def __init__(self, url):
+        self.url = url
+
+    def remove_background(self, image: Image.Image):
+        # Convert the image to a byte stream
+        img_byte_arr = io.BytesIO()
+        image.save(img_byte_arr, format="PNG")
+        img_byte_arr.seek(0)  # Go to the start of the byte stream
+
+        # Send the image as part of the POST request
+        files = {"image": ("image.png", img_byte_arr, "image/png")}
         response = requests.post(f"{self.url}/rembg_deeplab", files=files)
 
         if response.status_code != 200:
@@ -68,6 +91,9 @@ class BackgroundRemover:
     
     def get_remote_pipeline(url):
         return BackgroundRemover(pipeline=RemotePipeline(url))
+    
+    def get_remote_pipeline_deeplab(url):
+        return BackgroundRemover(pipeline=RemotePipelineDeeplab(url))
     
     def get_remover_pipeline():
         return BackgroundRemover(pipeline=RemoverPipeline())

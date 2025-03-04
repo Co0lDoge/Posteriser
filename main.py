@@ -61,8 +61,8 @@ overlay = ImageGenerator.generate_transparent_gradient(
     end_color=(color_scheme[0]/2.55, color_scheme[1]/2.55, color_scheme[2]/2.55),
 )
 
-background_remover = BackgroundRemover.get_local_pipeline()
-local_background_remover = BackgroundRemover.get_local_pipeline()
+background_remover = BackgroundRemover.get_remote_pipeline(url="http://localhost:8000")
+local_background_remover = BackgroundRemover.get_remote_pipeline(url="http://localhost:8000") # Dont work with non u2net models
 if speaker_photo:
     speaker_photo = Image.open(speaker_photo)
     speaker_photo = background_remover.remove_background(speaker_photo).convert('RGBA')
@@ -104,5 +104,5 @@ poster = (
     )
 
 # Show final poster
-#poster.show()
+poster.show()
 poster.save(output_path)
