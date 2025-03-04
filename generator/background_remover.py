@@ -1,4 +1,3 @@
-from rembg import remove, new_session
 import requests
 from PIL import Image
 import io
@@ -17,12 +16,14 @@ def crop_image(image: Image.Image) -> Image.Image:
 
 class LocalPipeline():
     def __init__(self):
+        from rembg import new_session
         os.environ['U2NET_HOME'] = U2NET_PATH
         model_name = "u2net"
         self.rembg_session = new_session(model_name)
 
     def __call__(self, img):
         # Remove background
+        from rembg import remove
         res_img = remove(img, session=self.rembg_session)
 
         return res_img
