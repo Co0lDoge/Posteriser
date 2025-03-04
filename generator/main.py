@@ -104,5 +104,5 @@ poster = (
     )
 
 # Show final poster
-poster.show()
+#poster.show()
 poster.save(output_path)
