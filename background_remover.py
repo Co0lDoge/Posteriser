@@ -2,6 +2,9 @@ from rembg import remove, new_session
 import requests
 from PIL import Image
 import io
+import os
+
+U2NET_PATH = "C:/WorkFolder/ML/Posteriser/model/u2net/"
 
 def crop_image(image: Image.Image) -> Image.Image:
     # Get the bounding box of non-transparent pixels
@@ -14,6 +17,7 @@ def crop_image(image: Image.Image) -> Image.Image:
 
 class LocalPipeline():
     def __init__(self):
+        os.environ['U2NET_HOME'] = U2NET_PATH
         model_name = "u2net"
         self.rembg_session = new_session(model_name)
 
@@ -43,7 +47,7 @@ class RemotePipeline():
 
         # Send the image as part of the POST request
         files = {"image": ("image.png", img_byte_arr, "image/png")}
-        response = requests.post(f"{self.url}/rembg", files=files)
+        response = requests.post(f"{self.url}/rembg_deeplab", files=files)
 
         if response.status_code != 200:
             raise Exception(f"Error: {response.status_code}")

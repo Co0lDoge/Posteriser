@@ -21,8 +21,8 @@ async def correct(text: str):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
     
-@app.post("/rembg")
-async def correct(image: UploadFile = File(...)):
+@app.post("/rembg_deeplab")
+async def remove_background_deeplab(image: UploadFile = File(...)):
     # Read the uploaded image into a PIL object
     image_data = await image.read()
     img = Image.open(io.BytesIO(image_data))
