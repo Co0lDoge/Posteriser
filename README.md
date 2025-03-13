@@ -15,4 +15,5 @@ python main.py
   --color_scheme "(0, 0, 255)"
 ```
 ## Пример генерации
-![image](https://github.com/user-attachments/assets/62653658-9954-46fe-a904-c5dbd8bdfb07)
+![image](https://github.com/user-attachments/assets/214e2cc9-b765-4e50-a29c-b26f41e41b41)
+
