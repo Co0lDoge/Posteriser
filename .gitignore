@@ -2,5 +2,9 @@
 /output/
 /sage/
 /model/
+/generator/res/
+/generator/output/
+/generator/sage/
+/generator/model/
 /server/model/
 __pycache__

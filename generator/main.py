@@ -10,8 +10,10 @@ from template.template_selector import select_template
 # Done: Company name extension
 # Done: Color scheme
 # TODO: Config that selects corrector
-# TODO: Cards for names (white radial corners with black text)
-# TODO: Move rembg to server for clearing logos
+# Done: Cards for names (white radial corners with black text)
+# Done: Move rembg to server for clearing logos
+
+REMOTE_URL = "http://localhost:8000"
 
 POSTER_DEBUG = False
 
@@ -61,8 +63,8 @@ overlay = ImageGenerator.generate_transparent_gradient(
     end_color=(color_scheme[0]/2.55, color_scheme[1]/2.55, color_scheme[2]/2.55),
 )
 
-background_remover = BackgroundRemover.get_remote_pipeline(url="http://localhost:8000")
-local_background_remover = BackgroundRemover.get_remote_pipeline(url="http://localhost:8000") # Dont work with non u2net models
+background_remover = BackgroundRemover.get_remote_pipeline(REMOTE_URL)
+local_background_remover = BackgroundRemover.get_remote_pipeline(REMOTE_URL) # Dont work with non u2net models
 if speaker_photo:
     speaker_photo = Image.open(speaker_photo)
     speaker_photo = background_remover.remove_background(speaker_photo).convert('RGBA')
@@ -76,7 +78,7 @@ if logo:
     logo = Image.open(logo)
     backgroundless_logo = local_background_remover.remove_background(logo).convert('RGBA')
 
-text_corrector = TextCorrector.get_remote_corrector(url="http://localhost:8000")
+text_corrector = TextCorrector.get_remote_corrector(REMOTE_URL)
 corrected_text = text_corrector.fix_spelling(event_desc)
 
 poster_builder = PosterBuilder(POSTER_DEBUG)
@@ -104,5 +106,5 @@ poster = (
     )
 
 # Show final poster
-poster.show()
+#poster.show()
 poster.save(output_path)
